@@ -35,4 +35,7 @@ d = { 'settings': { 'branch': 'main',
                                                                                       'pheno_utils/basic_plots.py')},
             'pheno_utils.blandaltman_plots': { 'pheno_utils.blandaltman_plots.bland_altman_triple_plot': ( 'blandaltman_plots.html#bland_altman_triple_plot',
                                                                                                            'pheno_utils/blandaltman_plots.py')},
-            'pheno_utils.config': {'pheno_utils.config.example_agesex_data': ('config.html#example_agesex_data', 'pheno_utils/config.py')}}}
+            'pheno_utils.config': { 'pheno_utils.config.generate_synthetic_data': ( 'config.html#generate_synthetic_data',
+                                                                                    'pheno_utils/config.py')},
+            'pheno_utils.dates_plots': { 'pheno_utils.dates_plots.dates_dist_plot': ( 'date_plots.html#dates_dist_plot',
+                                                                                      'pheno_utils/dates_plots.py')}}}
