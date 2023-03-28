@@ -18,9 +18,11 @@ pip install pheno_utils
 Examples:
 
 ``` python
-data = example_agesex_data(n=1000)
+data = generate_synthetic_data(n=1000)
 hist_ecdf_plots(data=data, col="val1")
 ```
+
+    NameError: name 'hist_ecdf_plots' is not defined
 
 ``` python
 age_refplots = GenderAgeRefPlot(data, "val1")
