@@ -384,7 +384,7 @@ class GenderAgeRefPlot(AgeRefPlot):
         self.ax_dict = ax_dict
 
         self.female_refplot = AgeRefPlot(
-            data=self.data.query("sex==0"),
+            data=self.data[self.data["sex"]==0],
             val_col=self.val_col,
             age_col=self.age_col,
             sex_col=self.sex_col,
@@ -403,7 +403,7 @@ class GenderAgeRefPlot(AgeRefPlot):
         self.female_refplot.plot()
 
         self.male_refplot = AgeRefPlot(
-            data=self.data.query("sex==1"),
+            data=self.data[self.data["sex"]==1],
             val_col=self.val_col,
             age_col=self.age_col,
             sex_col=self.sex_col,
