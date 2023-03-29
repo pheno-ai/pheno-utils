@@ -15,7 +15,7 @@ from .config import *
 
 # %% ../nbs/04_date_plots.ipynb 5
 def dates_dist_plot(df: pd.DataFrame, col: str, sampling_period: str = "W-MON", ax: Optional[Axes] = None,
-                    date_index: str = 'Date', ylim: Optional[Tuple[float, float]] = None,
+                    date_col: str = 'collection_date', ylim: Optional[Tuple[float, float]] = None,
                     quantiles: Optional[List[Tuple[float, str]]] = None) -> None:
     """
     Creates a scatter plot of data points and their statistics based on a specified sampling period.
@@ -25,7 +25,7 @@ def dates_dist_plot(df: pd.DataFrame, col: str, sampling_period: str = "W-MON", 
         col (str): The column name in the DataFrame to plot.
         sampling_period (str, optional): The frequency to resample the data. Defaults to 'W-MON'.
         ax (Optional[Axes], optional): A matplotlib axes object to plot on. Defaults to None.
-        date_index (str, optional): The name of the date index in the DataFrame. Defaults to 'Date'.
+        date_col (str, optional): The name of the date column in the DataFrame. Defaults to 'collection_date'.
         ylim (Optional[Tuple[float, float]], optional): A tuple defining the y-axis limits. Defaults to None.
         quantiles (Optional[List[Tuple[float, str]]], optional): A list of tuples containing quantiles and their
             labels. Defaults to [(0.1, "10%"), (0.9, "90%")].
@@ -33,19 +33,19 @@ def dates_dist_plot(df: pd.DataFrame, col: str, sampling_period: str = "W-MON", 
     if quantiles is None:
         quantiles = [(0.1, "10%"), (0.9, "90%")]
 
-    df = df.reset_index().set_index(date_index)
+    df = df.reset_index().set_index(date_col)
 
     if ax is None:
         fig, ax = plt.subplots(1, 1, figsize=(14, 8))
 
     # All data scatterplot
-    ax.scatter(df.index.get_level_values(date_index), df[col].values, s=40, alpha=0.2,
+    ax.scatter(df.index.get_level_values(date_col), df[col].values, s=40, alpha=0.2,
                marker="o", facecolors="none", linewidths=1, color="k")
 
     # Define statistics and their styles
     stats = [
         ('quantile', q, f"{label} quantile", "-", 3, 0.4) for q, label in quantiles
-    ] + [('median', None, f"{sampling_period} Median", "-", 5, 0.5)]
+    ] + [('median', None, f"Median", "-", 5, 0.5)]
 
     # Plot sampling period statistics
     for stat, param, label, ls, lw, alpha in stats:
@@ -61,6 +61,7 @@ def dates_dist_plot(df: pd.DataFrame, col: str, sampling_period: str = "W-MON", 
     ax.legend()
     ax.spines["right"].set_visible(False)
     ax.spines["top"].set_visible(False)
-    ax.set_xlabel(col, fontsize=16)
+    ax.set_xlabel(date_col, fontsize=16)
+    ax.set_ylabel(col, fontsize=16)
     if ylim is not None:
         ax.set_ylim(ylim)
