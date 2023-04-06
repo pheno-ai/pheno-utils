@@ -273,19 +273,19 @@ unique_index (bool): Whether to ensure the index of the data is unique.
 valid_dates (bool): Whether to ensure that all timestamps in the data are valid dates.
 valid_stage (bool): Whether to ensure that all research stages in the data are valid.
 errors (str): Whether to raise an error or issue a warning if missing data is encountered.</code></pre>
-<p>Use the dataset name to load the dataset. It may contain multiple tables. Age / sex will be added to the data by default.</p>
+<p>Use the dataset name to load the dataset. It may contain multiple tables. Age / sex will be added to the data by default. The default <code>base_path</code> is set to work on the research platform.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dl <span class="op">=</span> DataLoader(<span class="st">'Fundus'</span>)</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dl <span class="op">=</span> DataLoader(<span class="st">'Fundus'</span>, base_path<span class="op">=</span><span class="st">'examples/'</span>, errors<span class="op">=</span><span class="st">'warn'</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>DataLoader for fundus with
+<pre><code>DataLoader for Fundus with
 78 fields
 2 tables: ['fundus', 'age_sex']</code></pre>
 </div>
 </div>
 <p>The data dictionary of the dataset displays the description of each field.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dl.<span class="bu">dict</span>.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dl.<span class="bu">dict</span>.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <div>
@@ -374,57 +374,13 @@ errors (str): Whether to raise an error or issue a warning if missing data is en
       <td>2021-02-17</td>
       <td>datetime64[ns]</td>
     </tr>
-    <tr>
-      <th>timezone</th>
-      <td>Timezone</td>
-      <td>Timezone for timestamp columns</td>
-      <td>NaN</td>
-      <td>fundus.parquet</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>string</td>
-    </tr>
-    <tr>
-      <th>collection_timestamp</th>
-      <td>Collection timestamp</td>
-      <td>Collection timestamp</td>
-      <td>NaN</td>
-      <td>fundus.parquet</td>
-      <td>NaN</td>
-      <td>Time</td>
-      <td>NaN</td>
-      <td>Data</td>
-      <td>Single</td>
-      <td>10K</td>
-      <td>tabular</td>
-      <td>NaN</td>
-      <td>datetime64[ns, Asia/Jerusalem]</td>
-    </tr>
   </tbody>
 </table>
 </div>
 </div>
 </div>
-<p>All availbale fields (columns) in all tables can be listed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dl.fields[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<pre><code>['distance_tortuosity_right',
- 'fundus_image_quality_good_score_right',
- 'average_width_left',
- 'artery_vessel_density_left',
- 'artery_distance_tortuosity_right']</code></pre>
-</div>
-</div>
-<p>Access any of the fields (e.g., <code>vein_average_width_right</code>, <code>age</code>) or indices (e.g., <code>research_stage</code>) from any of the tables via the data loader API.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dl[[<span class="st">'research_stage'</span>, <span class="st">'vein_average_width_right'</span>, <span class="st">'age'</span>, <span class="st">'sex'</span>]].loc[<span class="dv">5309837561</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dl.dfs[<span class="st">'fundus'</span>].head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <div>
@@ -435,12 +391,177 @@ errors (str): Whether to raise an error or issue a warning if missing data is en
       <th></th>
       <th></th>
       <th></th>
+      <th></th>
+      <th>fundus_image_left</th>
+      <th>fundus_image_right</th>
+      <th>collection_date</th>
+      <th>artery_average_width_left</th>
+      <th>artery_average_width_right</th>
+      <th>artery_distance_tortuosity_left</th>
+      <th>artery_distance_tortuosity_right</th>
+      <th>artery_fractal_dimension_left</th>
+      <th>artery_fractal_dimension_right</th>
+      <th>artery_squared_curvature_tortuosity_left</th>
+      <th>...</th>
+      <th>vein_fractal_dimension_left</th>
+      <th>vein_fractal_dimension_right</th>
+      <th>vein_squared_curvature_tortuosity_left</th>
+      <th>vein_squared_curvature_tortuosity_right</th>
+      <th>vein_tortuosity_density_left</th>
+      <th>vein_tortuosity_density_right</th>
+      <th>vein_vessel_density_left</th>
+      <th>vein_vessel_density_right</th>
+      <th>vessel_density_left</th>
+      <th>vessel_density_right</th>
+    </tr>
+    <tr>
+      <th>participant_id</th>
+      <th>cohort</th>
+      <th>research_stage</th>
+      <th>array_index</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <th>10k</th>
+      <th>00_00_visit</th>
+      <th>0</th>
+      <td>/path/to/file</td>
+      <td>/path/to/file</td>
+      <td>2022-11-16</td>
+      <td>18430.284751</td>
+      <td>19038.547771</td>
+      <td>3.668175</td>
+      <td>3.271147</td>
+      <td>1.355673</td>
+      <td>1.343602</td>
+      <td>40.648267</td>
+      <td>...</td>
+      <td>1.410553</td>
+      <td>1.403108</td>
+      <td>14.208195</td>
+      <td>6.098432</td>
+      <td>0.700187</td>
+      <td>0.698546</td>
+      <td>0.046645</td>
+      <td>0.045864</td>
+      <td>0.080377</td>
+      <td>0.078671</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <th>10k</th>
+      <th>00_00_visit</th>
+      <th>0</th>
+      <td>/path/to/file</td>
+      <td>/path/to/file</td>
+      <td>2022-06-30</td>
+      <td>17315.398780</td>
+      <td>19099.489575</td>
+      <td>2.095461</td>
+      <td>1.634782</td>
+      <td>1.368933</td>
+      <td>1.363413</td>
+      <td>24.253169</td>
+      <td>...</td>
+      <td>1.387527</td>
+      <td>1.332864</td>
+      <td>8.999069</td>
+      <td>8.702682</td>
+      <td>0.740806</td>
+      <td>0.708911</td>
+      <td>0.037896</td>
+      <td>0.046853</td>
+      <td>0.074197</td>
+      <td>0.064578</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <th>10k</th>
+      <th>00_00_visit</th>
+      <th>0</th>
+      <td>/path/to/file</td>
+      <td>/path/to/file</td>
+      <td>2021-10-05</td>
+      <td>15375.866993</td>
+      <td>19855.576862</td>
+      <td>2.776472</td>
+      <td>2.747015</td>
+      <td>1.360404</td>
+      <td>1.362699</td>
+      <td>9.742353</td>
+      <td>...</td>
+      <td>1.411881</td>
+      <td>1.408791</td>
+      <td>13.119227</td>
+      <td>9.936669</td>
+      <td>0.627281</td>
+      <td>0.675100</td>
+      <td>0.053022</td>
+      <td>0.048063</td>
+      <td>0.079515</td>
+      <td>0.082102</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 76 columns</p>
+</div>
+</div>
+</div>
+<p>All availbale fields (columns) in all tables can be listed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dl.fields[:<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>['artery_squared_curvature_tortuosity_right',
+ 'fundus_image_binary_vein_segmentation_right',
+ 'timezone',
+ 'fundus_image_quality_good_score_left',
+ 'fundus_image_quality_prediction_left']</code></pre>
+</div>
+</div>
+<p>Access any of the fields (e.g., <code>vein_average_width_right</code>, <code>age</code>) or indices (e.g., <code>research_stage</code>) from any of the tables via the data loader API.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dl[[<span class="st">'research_stage'</span>, <span class="st">'vein_average_width_right'</span>, <span class="st">'age'</span>, <span class="st">'sex'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
       <th>vein_average_width_right</th>
-      <th>sex</th>
       <th>age</th>
+      <th>sex</th>
       <th>research_stage</th>
     </tr>
     <tr>
+      <th>participant_id</th>
       <th>cohort</th>
       <th>research_stage</th>
       <th>array_index</th>
@@ -452,13 +573,54 @@ errors (str): Whether to raise an error or issue a warning if missing data is en
   </thead>
   <tbody>
     <tr>
-      <th>10k</th>
-      <th>02_00_visit</th>
       <th>0</th>
-      <td>19196.368856</td>
+      <th>10k</th>
+      <th>00_00_visit</th>
+      <th>0</th>
+      <td>18436.428634</td>
+      <td>43.5</td>
+      <td>0</td>
+      <td>00_00_visit</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <th>10k</th>
+      <th>00_00_visit</th>
+      <th>0</th>
+      <td>18888.160314</td>
+      <td>53.7</td>
       <td>1</td>
-      <td>56.8</td>
-      <td>02_00_visit</td>
+      <td>00_00_visit</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <th>10k</th>
+      <th>00_00_visit</th>
+      <th>0</th>
+      <td>19013.865043</td>
+      <td>26.2</td>
+      <td>0</td>
+      <td>00_00_visit</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <th>10k</th>
+      <th>00_00_visit</th>
+      <th>0</th>
+      <td>18809.012493</td>
+      <td>44.6</td>
+      <td>1</td>
+      <td>00_00_visit</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <th>10k</th>
+      <th>00_00_visit</th>
+      <th>0</th>
+      <td>19428.986690</td>
+      <td>50.3</td>
+      <td>0</td>
+      <td>00_00_visit</td>
     </tr>
   </tbody>
 </table>
@@ -467,18 +629,14 @@ errors (str): Whether to raise an error or issue a warning if missing data is en
 </div>
 <p>Access time series or bulk data that is stored separately for each sample via the data loader API. In the following example, the data loader retrieves the relative path of each sample’s bulk file from the main table (where it is stored in the field <code>fundus_image_left</code>), converts it to an absolute path, and loads the file. This is repeated for 3 samples and returned as a list. In the case of parquet DataFrames, there is no need to define the <code>load_func</code> and the results are concatenated by deafult.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> smart_open <span class="im">import</span> <span class="bu">open</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_image(path):</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Image.<span class="bu">open</span>(<span class="bu">open</span>(path, <span class="st">'rb'</span>))</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>dl.load_sample(<span class="st">'fundus_image_left'</span>, [<span class="dv">5950288169</span>, <span class="dv">5948791269</span>, <span class="dv">5580301087</span>], load_func<span class="op">=</span>load_image, concat<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dl.load_sample_data(<span class="st">'fundus_image_left'</span>, [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>], load_func<span class="op">=</span>Image.<span class="bu">open</span>, concat<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<pre><code>[&lt;PIL.PngImagePlugin.PngImageFile image mode=RGB size=3494x3494&gt;,
- &lt;PIL.PngImagePlugin.PngImageFile image mode=RGB size=3500x3500&gt;,
- &lt;PIL.PngImagePlugin.PngImageFile image mode=RGB size=3458x3458&gt;]</code></pre>
+<pre><code>[&lt;PIL.PngImagePlugin.PngImageFile image mode=RGBA size=25x25&gt;,
+ &lt;PIL.PngImagePlugin.PngImageFile image mode=RGBA size=25x25&gt;,
+ &lt;PIL.PngImagePlugin.PngImageFile image mode=RGBA size=25x25&gt;]</code></pre>
 </div>
 </div>
 

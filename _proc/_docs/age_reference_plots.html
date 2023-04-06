@@ -244,16 +244,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <blockquote class="blockquote">
 <pre><code> AgeRefPlot (data:pandas.core.frame.DataFrame, val_col:str,
              age_col:str='age_at_research_stage', sex_col:str='sex',
-             sex:Optional[int]=None, val_color:Optional[str]=None,
-             ax_main:Optional[matplotlib.axes._axes.Axes]=None,
-             ax_agehist:Optional[matplotlib.axes._axes.Axes]=None,
-             ax_valhist:Optional[matplotlib.axes._axes.Axes]=None,
-             age_bins:Optional[numpy.ndarray]=None,
-             val_bins:Optional[numpy.ndarray]=None, linear_fit:bool=True,
-             lowess:bool=False, top_disp_perc:float=99,
-             bottom_disp_perc:float=1, percentiles_type:str='summary',
-             robust:bool=True, scale:float=1.0,
-             transform:Optional[Callable]=None, make_fig:bool=True)</code></pre>
+             sex:Union[int,NoneType]=None,
+             val_color:Union[str,NoneType]=None,
+             ax_main:Union[matplotlib.axes._axes.Axes,NoneType]=None,
+             ax_agehist:Union[matplotlib.axes._axes.Axes,NoneType]=None,
+             ax_valhist:Union[matplotlib.axes._axes.Axes,NoneType]=None,
+             age_bins:Union[numpy.ndarray,NoneType]=None,
+             val_bins:Union[numpy.ndarray,NoneType]=None,
+             linear_fit:bool=True, lowess:bool=False,
+             top_disp_perc:float=99, bottom_disp_perc:float=1,
+             percentiles_type:str='summary', robust:bool=True,
+             scale:float=1.0, transform:Union[Callable,NoneType]=None,
+             make_fig:bool=True)</code></pre>
 </blockquote>
 <p>Initializes the AgeRefPlot class.</p>
 <p>Args: data (pd.DataFrame): A pandas DataFrame containing the data. val_col (str): The name of the value column in the DataFrame. age_col (str): The name of the age column in the DataFrame. sex_col (str): The name of the sex column in the DataFrame. sex (Optional[int], optional): The sex to filter the data by. 0 for females and 1 for males. Defaults to None. val_color (Optional[str], optional): The color to use for the value plot. Defaults to None. ax_main (Optional[plt.Axes], optional): The main axis for the plot. Defaults to None. ax_agehist (Optional[plt.Axes], optional): The axis for the age histogram. Defaults to None. ax_valhist (Optional[plt.Axes], optional): The axis for the value histogram. Defaults to None. age_bins (Optional[np.ndarray], optional): The age bins for the histograms. Defaults to None. val_bins (Optional[np.ndarray], optional): The value bins for the histograms. Defaults to None. linear_fit (bool, optional): Whether to perform a linear fit on the data. Defaults to True. lowess (bool, optional): Whether to perform lowess smoothing on the data. Defaults to False. top_disp_perc (float, optional): The top percentile to use for display. Defaults to 99. bottom_disp_perc (float, optional): The bottom percentile to use for display. Defaults to 1. percentiles_type (str, optional): The type of percentiles to use. Must be one of [‘summary’, ‘1-percent intervals’, ‘5-percent intervals’, ‘10-percent intervals’]. Defaults to ‘summary’. robust (bool, optional): Whether to use a robust regression method (HuberRegressor) instead of ordinary least squares for linear_fit. Defaults to True. scale (float, optional): The scaling factor for the value column. Defaults to 1. transform (Optional[Callable], optional): The transformation function to apply to the value column. Defaults make_fig (bool, optional): Whether to create a new figure if axes are not provided. Defaults to True.</p>
@@ -263,27 +265,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>refplot <span class="op">=</span> AgeRefPlot(data, <span class="st">"val1"</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>refplot.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="03_age_reference_plots_files/figure-html/cell-3-output-1.png" class="img-fluid"></p>
+</div>
 </div>
 <hr>
-<p><a href="https://github.com/hrossman/pheno-utils/blob/main/pheno_utils/age_reference_plots.py#L318" target="_blank" style="float:right; font-size:smaller">source</a></p>
+<p><a href="https://github.com/hrossman/pheno-utils/blob/main/pheno_utils/age_reference_plots.py#L317" target="_blank" style="float:right; font-size:smaller">source</a></p>
 </section>
 <section id="genderagerefplot" class="level3">
 <h3 class="anchored" data-anchor-id="genderagerefplot">GenderAgeRefPlot</h3>
 <blockquote class="blockquote">
 <pre><code> GenderAgeRefPlot (data:pandas.core.frame.DataFrame, val_col:str,
                    age_col:str='age_at_research_stage', sex_col:str='sex',
-                   age_bins:Optional[numpy.ndarray]=None,
-                   val_bins:Optional[numpy.ndarray]=None,
+                   age_bins:Union[numpy.ndarray,NoneType]=None,
+                   val_bins:Union[numpy.ndarray,NoneType]=None,
                    linear_fit:bool=True, lowess:bool=False,
                    top_disp_perc:float=99, bottom_disp_perc:float=1,
                    percentiles_type:str='summary', robust:bool=True,
-                   scale:float=1.0, transform:Optional[Callable]=None)</code></pre>
+                   scale:float=1.0,
+                   transform:Union[Callable,NoneType]=None)</code></pre>
 </blockquote>
 <p>Initializes the GenderAgeRefPlot class.</p>
 <p>Args: data (pd.DataFrame): The input data containing age, value, and gender columns. val_col (str): The name of the value column in the data. age_col (str): The name of the age column in the DataFrame. sex_col (str): The name of the sex column in the DataFrame. age_bins (np.ndarray, optional): An array of age bin edges. val_bins (np.ndarray, optional): An array of value bin edges. linear_fit (bool, optional): Whether to fit a linear regression line. Defaults to True. lowess (bool, optional): Whether to fit a LOWESS curve. Defaults to False. top_disp_perc (float, optional): The top percentile for data display. Defaults to 99. bottom_disp_perc (float, optional): The bottom percentile for data display. Defaults to 1. percentiles_type (str, optional): The type of percentile calculation. Defaults to ‘summary’. robust (bool, optional): Whether to use a robust linear regression. Defaults to True. scale (float, optional): The scaling factor for the data. Defaults to 1. transform (Callable, optional): An optional function to apply to the data. Defaults to None.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gender_refplots <span class="op">=</span> GenderAgeRefPlot(data, <span class="st">"val1"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gender_refplots.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="03_age_reference_plots_files/figure-html/cell-5-output-1.png" class="img-fluid"></p>
+</div>
 </div>
 
 

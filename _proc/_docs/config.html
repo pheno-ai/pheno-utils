@@ -210,6 +210,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#generate_synthetic_data" id="toc-generate_synthetic_data" class="nav-link active" data-scroll-target="#generate_synthetic_data">generate_synthetic_data</a></li>
+  <li><a href="#generate_synthetic_data_like" id="toc-generate_synthetic_data_like" class="nav-link" data-scroll-target="#generate_synthetic_data_like">generate_synthetic_data_like</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/hrossman/pheno-utils/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -249,9 +250,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Generates a sample DataFrame containing age, gender, and value data.</p>
 <p>Args: n: The number of rows in the generated DataFrame.</p>
 <p>Returns: A pandas DataFrame with columns ‘age’, ‘gender’, and ‘val’.</p>
+<hr>
+<p><a href="https://github.com/hrossman/pheno-utils/blob/main/pheno_utils/config.py#L48" target="_blank" style="float:right; font-size:smaller">source</a></p>
+</section>
+<section id="generate_synthetic_data_like" class="level3">
+<h3 class="anchored" data-anchor-id="generate_synthetic_data_like">generate_synthetic_data_like</h3>
+<blockquote class="blockquote">
+<pre><code> generate_synthetic_data_like (df:pandas.core.frame.DataFrame, n:int=1000,
+                               random_seed:int=42)</code></pre>
+</blockquote>
+<p>Generate a sample DataFrame containing the same columns as <code>df</code>, but with random data.</p>
+<p>Args:</p>
+<pre><code>df: The DataFrame whose columns should be used.
+n: The number of rows in the generated DataFrame.</code></pre>
+<p>Returns: A pandas DataFrame with the same columns as <code>df</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> generate_synthetic_data()</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> generate_synthetic_data()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <div>
@@ -278,43 +293,114 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <tbody>
     <tr>
       <th>0</th>
-      <td>2021-07-28</td>
-      <td>57.764984</td>
+      <td>2021-05-29</td>
+      <td>69.788555</td>
       <td>1</td>
-      <td>124.977830</td>
-      <td>56.731941</td>
+      <td>162.270810</td>
+      <td>82.273910</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2021-12-24</td>
-      <td>64.400381</td>
-      <td>0</td>
-      <td>88.942255</td>
-      <td>43.921269</td>
+      <td>2020-12-13</td>
+      <td>36.289947</td>
+      <td>1</td>
+      <td>125.240476</td>
+      <td>71.164810</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2020-02-25</td>
-      <td>72.453599</td>
-      <td>0</td>
-      <td>79.310799</td>
-      <td>41.031832</td>
+      <td>2021-12-30</td>
+      <td>61.501970</td>
+      <td>1</td>
+      <td>116.044417</td>
+      <td>68.405992</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2020-10-08</td>
-      <td>62.306085</td>
+      <td>2020-06-15</td>
+      <td>46.299262</td>
       <td>0</td>
-      <td>61.970616</td>
-      <td>35.829777</td>
+      <td>84.440308</td>
+      <td>56.924759</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2021-01-12</td>
-      <td>43.778984</td>
+      <td>2020-12-14</td>
+      <td>70.127055</td>
+      <td>1</td>
+      <td>120.693921</td>
+      <td>69.800843</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>generate_synthetic_data_like(data.head(), n<span class="op">=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>date_of_research_stage</th>
+      <th>age_at_research_stage</th>
+      <th>sex</th>
+      <th>val1</th>
+      <th>val2</th>
+    </tr>
+    <tr>
+      <th>participant_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2021-12-30</td>
+      <td>46.299262</td>
+      <td>1</td>
+      <td>84.440308</td>
+      <td>82.273910</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020-06-15</td>
+      <td>36.289947</td>
+      <td>1</td>
+      <td>162.270810</td>
+      <td>69.800843</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020-12-14</td>
+      <td>61.501970</td>
+      <td>1</td>
+      <td>120.693921</td>
+      <td>71.164810</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020-12-13</td>
+      <td>69.788555</td>
+      <td>1</td>
+      <td>116.044417</td>
+      <td>68.405992</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-05-29</td>
+      <td>70.127055</td>
       <td>0</td>
-      <td>78.667657</td>
-      <td>40.838890</td>
+      <td>125.240476</td>
+      <td>56.924759</td>
     </tr>
   </tbody>
 </table>

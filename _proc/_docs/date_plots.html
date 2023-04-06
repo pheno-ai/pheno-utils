@@ -121,6 +121,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -236,17 +239,91 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="dates_dist_plot">dates_dist_plot</h3>
 <blockquote class="blockquote">
 <pre><code> dates_dist_plot (df:pandas.core.frame.DataFrame, col:str,
-                  sampling_period:str='W-MON', ax:Union[ForwardRef('Extens
-                  ionArray'),numpy.ndarray,ForwardRef('Index'),ForwardRef(
-                  'Series'),List,range,NoneType]=None,
-                  date_index:str='Date',
-                  ylim:Optional[Tuple[float,float]]=None,
-                  quantiles:Optional[List[Tuple[float,str]]]=None)</code></pre>
+                  sampling_period:str='W-MON',
+                  ax:Union[Collection,NoneType]=None,
+                  date_col:str='collection_date',
+                  ylim:Union[Tuple[float,float],NoneType]=None,
+                  quantiles:Union[List[Tuple[float,str]],NoneType]=None)</code></pre>
 </blockquote>
 <p>Creates a scatter plot of data points and their statistics based on a specified sampling period.</p>
-<p>Args: df (pd.DataFrame): The input DataFrame containing the data. col (str): The column name in the DataFrame to plot. sampling_period (str, optional): The frequency to resample the data. Defaults to ‘W-MON’. ax (Optional[Axes], optional): A matplotlib axes object to plot on. Defaults to None. date_index (str, optional): The name of the date index in the DataFrame. Defaults to ‘Date’. ylim (Optional[Tuple[float, float]], optional): A tuple defining the y-axis limits. Defaults to None. quantiles (Optional[List[Tuple[float, str]]], optional): A list of tuples containing quantiles and their labels. Defaults to [(0.1, “10%”), (0.9, “90%”)].</p>
+<p>Args: df (pd.DataFrame): The input DataFrame containing the data. col (str): The column name in the DataFrame to plot. sampling_period (str, optional): The frequency to resample the data. Defaults to ‘W-MON’. ax (Optional[Axes], optional): A matplotlib axes object to plot on. Defaults to None. date_col (str, optional): The name of the date column in the DataFrame. Defaults to ‘collection_date’. ylim (Optional[Tuple[float, float]], optional): A tuple defining the y-axis limits. Defaults to None. quantiles (Optional[List[Tuple[float, str]]], optional): A list of tuples containing quantiles and their labels. Defaults to [(0.1, “10%”), (0.9, “90%”)].</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> generate_synthetic_data()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> generate_synthetic_data()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>date_of_research_stage</th>
+      <th>age_at_research_stage</th>
+      <th>sex</th>
+      <th>val1</th>
+      <th>val2</th>
+    </tr>
+    <tr>
+      <th>participant_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2022-12-01</td>
+      <td>57.777073</td>
+      <td>1</td>
+      <td>150.216212</td>
+      <td>56.936487</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020-07-29</td>
+      <td>53.770724</td>
+      <td>1</td>
+      <td>117.603875</td>
+      <td>47.152785</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020-09-30</td>
+      <td>51.326393</td>
+      <td>1</td>
+      <td>97.928950</td>
+      <td>41.250308</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2022-05-06</td>
+      <td>61.217276</td>
+      <td>0</td>
+      <td>105.169939</td>
+      <td>41.422605</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2021-06-29</td>
+      <td>45.835170</td>
+      <td>0</td>
+      <td>54.735540</td>
+      <td>26.292285</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dates_dist_plot(data, col<span class="op">=</span><span class="st">"val1"</span>, date_col<span class="op">=</span><span class="st">"date_of_research_stage"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="04_date_plots_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
+</div>
 </div>
 
 

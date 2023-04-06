@@ -242,7 +242,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="hist_ecdf_plots">hist_ecdf_plots</h3>
 <blockquote class="blockquote">
 <pre><code> hist_ecdf_plots (data:pandas.core.frame.DataFrame, col:str,
-                  feature_str:Optional[str]=None, gender_col:str='sex')</code></pre>
+                  feature_str:Union[str,NoneType]=None,
+                  gender_col:str='sex')</code></pre>
 </blockquote>
 <p>Plots histograms and empirical cumulative distribution functions (ECDFs) from a DataFrame for a specific column.</p>
 <p>Args: data: The input DataFrame containing the data to plot. col: The column name to plot. feature_str: The title of the plot. If not provided, the column name will be used. gender_col: The column name indicating sex (default is ‘sex’ - female:0; male:1).</p>

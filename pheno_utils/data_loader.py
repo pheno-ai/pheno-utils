@@ -72,7 +72,7 @@ class DataLoader:
         if self.age_sex_dataset is not None:
             self.__load_age_sex__()
 
-    def load_sample(
+    def load_sample_data(
         self,
         field_name: str,
         participant_id: Union[str, List[str]],
@@ -119,7 +119,15 @@ class DataLoader:
             if len(sample) == 0:
                 return None
 
-        data = [load_func(p) for p in sample.unique()]
+        data = []
+        for p in sample.unique():
+            try:
+                data.append(load_func(p))
+            except Exception as e:
+                if self.errors == 'raise':
+                    raise e
+                elif self.errors == 'warn':
+                    warnings.warn(f'Error loading {p}: {e}')
         if concat:
             data = pd.concat(data, axis=0)
         return data
@@ -244,6 +252,11 @@ class DataLoader:
             self.cohort,
             relative_location)
         data =  pd.read_parquet(df_path)
+        # set the order of columns according to the dictionary
+        dict_columns = self.dict.index.intersection(data.columns)
+        other_columns = data.columns.difference(self.dict.index)
+        assert (len(dict_columns) + len(other_columns)) == len(data.columns), "something isn't right"
+        data = data[dict_columns.tolist() + other_columns.tolist()]
 
         before = len(data)
         if self.unique_index:
@@ -281,4 +294,3 @@ class DataLoader:
         if path.startswith('s3://'):
            return path
         return glob(path)[0]
-

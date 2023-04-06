@@ -2,26 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://hrossman.github.io/pheno-utils/age_reference_plots.html</loc>
-    <lastmod>2023-04-06T13:44:42.914Z</lastmod>
+    <lastmod>2023-04-06T20:09:16.009Z</lastmod>
   </url>
   <url>
     <loc>https://hrossman.github.io/pheno-utils/basic_plots.html</loc>
-    <lastmod>2023-04-06T13:44:43.231Z</lastmod>
+    <lastmod>2023-04-06T20:09:16.314Z</lastmod>
   </url>
   <url>
     <loc>https://hrossman.github.io/pheno-utils/blandaltman_plots.html</loc>
-    <lastmod>2023-04-06T13:44:43.506Z</lastmod>
+    <lastmod>2023-04-06T20:09:16.605Z</lastmod>
   </url>
   <url>
     <loc>https://hrossman.github.io/pheno-utils/config.html</loc>
-    <lastmod>2023-04-06T13:44:43.782Z</lastmod>
+    <lastmod>2023-04-06T20:09:16.897Z</lastmod>
   </url>
   <url>
     <loc>https://hrossman.github.io/pheno-utils/date_plots.html</loc>
-    <lastmod>2023-04-06T13:44:44.066Z</lastmod>
+    <lastmod>2023-04-06T20:09:17.204Z</lastmod>
   </url>
   <url>
     <loc>https://hrossman.github.io/pheno-utils/data_loader.html</loc>
-    <lastmod>2023-04-06T13:44:44.383Z</lastmod>
+    <lastmod>2023-04-06T20:09:17.537Z</lastmod>
+  </url>
+  <url>
+    <loc>https://hrossman.github.io/pheno-utils/index.html</loc>
+    <lastmod>2023-04-06T20:10:19.000Z</lastmod>
   </url>
 </urlset>

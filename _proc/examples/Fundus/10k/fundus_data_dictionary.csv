@@ -1,0 +1,4 @@
+tabular_field_name,field_string,description_string,parent_dataframe,relative_location,value_type,units,sampling_rate,item_type,array,cohorts,data_type,debut,pandas_dtype
+fundus_image_left,Fundus image (left),Fundus image (left),,fundus.parquet,Text ,None,,Bulk,Single,10K,image,2021-02-17,string
+fundus_image_right,Fundus image (right),Fundus image (right),,fundus.parquet,Text ,None,,Bulk,Single,10K,image,2021-02-17,string
+collection_date,Collection date (YYYY-MM-DD),Collection date (YYYY-MM-DD),,fundus.parquet,Date,Time,,Data,Single,10K,tabular,2021-02-17,datetime64[ns]

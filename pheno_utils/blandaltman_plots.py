@@ -71,4 +71,3 @@ def bland_altman_triple_plot(
     blandAltman(m1, m2, ax=ax, percentage=True)
     ax.set_xlabel(f"Mean of {m1.name} and {m2.name}")
     ax.set_ylabel(f"Percentage ({m1.name} - {m2.name})")
-

@@ -1,37 +1,20 @@
-ipynb-filters: [nbdev_filter]
-
 project:
   type: website
-  output-dir: _docs
-  preview:
-    port: 3000
-    browser: false
 
 format:
   html:
     theme: cosmo
     css: styles.css
     toc: true
-    toc-depth: 4
 
 website:
-  title: "pheno-utils"
-  site-url: "https://hrossman.github.io/pheno-utils"
-  description: "Pheno data utils - viz, loaders, mergers"
   twitter-card: true
   open-graph: true
-  repo-branch: main
-  repo-url: "https://github.com/hrossman/pheno-utils"
   repo-actions: [issue]
   navbar:
     background: primary
     search: true
-    right:
-      - icon: github
-        href: "https://github.com/hrossman/pheno-utils"
   sidebar:
-    style: "floating"
+    style: floating
 
-metadata-files: 
-  - sidebar.yml
-  - custom.yml
+metadata-files: [nbdev.yml, sidebar.yml]

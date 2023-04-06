@@ -313,7 +313,6 @@ class AgeRefPlot:
         self.plot_agehist()
         self.plot_valhist()
 
-
 # %% ../nbs/03_age_reference_plots.ipynb 7
 class GenderAgeRefPlot(AgeRefPlot):
     def __init__(
