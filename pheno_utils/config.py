@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['REF_COLOR', 'FEMALE_COLOR', 'MALE_COLOR', 'ALL_COLOR', 'GLUC_COLOR', 'FOOD_COLOR', 'DATASETS_PATH',
-           'POPULATION_DATASET', 'generate_synthetic_data']
+           'POPULATION_DATASET', 'generate_synthetic_data', 'generate_synthetic_data_like']
 
 # %% ../nbs/00_config.ipynb 3
 import numpy as np
@@ -43,3 +43,37 @@ def generate_synthetic_data(n: int = 1000) -> pd.DataFrame:
     data = pd.DataFrame(data={"participant_id":pids,"date_of_research_stage": dates,"age_at_research_stage": ages, "sex": genders, "val1": vals}).set_index("participant_id")
     data["val2"] = data["val1"]*0.3 + 0.5*np.random.normal(0,50) + 0.2*10*data["sex"]
     return data
+
+# %% ../nbs/00_config.ipynb 6
+def generate_synthetic_data_like(df: pd.DataFrame, n: int = 1000, random_seed: int = 42) -> pd.DataFrame:
+    """
+    Generate a sample DataFrame containing the same columns as `df`, but with random data.
+
+    Args:
+    
+        df: The DataFrame whose columns should be used.
+        n: The number of rows in the generated DataFrame.
+
+    Returns:
+        A pandas DataFrame with the same columns as `df`.
+    """
+    np.random.seed(random_seed)
+    pids = np.arange(n)
+    if n > len(df):
+        replace = True
+    else:
+        replace = False
+
+    null = df.reset_index().apply(lambda x: x.sample(frac=1).values)\
+        .sample(n=n, replace=replace).assign(participant_id=pids)\
+        .set_index(df.index.names)
+
+    def is_path_string(x):
+        return isinstance(x, str) and (x.count('/') > 1)
+
+    # handle specific columns
+    null.loc[:, null.applymap(is_path_string).mean() > 0.5] = '/path/to/file'
+    if ('collection_timestamp' in null.columns) and ('collection_date' in null.columns):
+        null['collection_date'] = null['collection_timestamp'].dt.date
+
+    return null
