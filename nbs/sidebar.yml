@@ -1,0 +1,10 @@
+website:
+  sidebar:
+    contents:
+      - index.ipynb
+      - 00_config.ipynb
+      - 01_basic_plots.ipynb
+      - 02_blandaltman_plots.ipynb
+      - 03_age_reference_plots.ipynb
+      - 04_date_plots.ipynb
+      - 05_data_loader.ipynb
