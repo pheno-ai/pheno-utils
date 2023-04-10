@@ -183,7 +183,9 @@ class DataLoader:
         """
         data = []
         for df in self.dfs.values():
-            data.append(df[df.columns.intersection(fields)])
+            fields_in_df = df.columns.intersection(fields)
+            if len(fields_in_df):
+                data.append(df[fields_in_df])
         data = pd.concat(data, axis=1)
         data = data.loc[:, ~data.columns.duplicated()]
 
