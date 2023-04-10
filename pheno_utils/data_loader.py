@@ -26,6 +26,7 @@ class DataLoader:
         cohort (str, optional): The name of the cohort within the dataset. Defaults to '10k'.
         base_path (str, optional): The base path where the data is stored. Defaults to '/home/ec2-user/studies'.
         age_sex_dataset (str, optional): The name of the dataset to use for computing age and sex. Defaults to 'Population_Characteristics'.
+        skip_dfs (list, optional): A list of tables (or substrings that match to tables) to skip when loading the data. Defaults to [].
         unique_index (bool, optional): Whether to ensure the index of the data is unique. Defaults to False.
         valid_dates (bool, optional): Whether to ensure that all timestamps in the data are valid dates. Defaults to False.
         valid_stage (bool, optional): Whether to ensure that all research stages in the data are valid. Defaults to False.
@@ -41,6 +42,7 @@ class DataLoader:
         cohort (str): The name of the cohort being used.
         base_path (str): The base path where the data is stored.
         age_sex_dataset (str): The name of the dataset being used to compute age and sex.
+        skip_dfs (list): A list of tables to skip when loading the data.
         unique_index (bool): Whether to ensure the index of the data is unique.
         valid_dates (bool): Whether to ensure that all timestamps in the data are valid dates.
         valid_stage (bool): Whether to ensure that all research stages in the data are valid.
@@ -53,6 +55,7 @@ class DataLoader:
         cohort: str = '10k',
         base_path: str = DATASETS_PATH,
         age_sex_dataset: str = POPULATION_DATASET,
+        skip_dfs: List[str] = [],
         unique_index: bool = False,
         valid_dates: bool = False,
         valid_stage: bool = False,
@@ -62,6 +65,7 @@ class DataLoader:
         self.cohort = cohort
         self.base_path = base_path
         self.age_sex_dataset = age_sex_dataset
+        self.skip_dfs = skip_dfs
         self.unique_index = unique_index
         self.valid_dates = valid_dates
         self.valid_stage = valid_stage
@@ -75,7 +79,7 @@ class DataLoader:
     def load_sample_data(
         self,
         field_name: str,
-        participant_id: Union[str, List[str]],
+        participant_id: Union[int, List[int]],
         research_stage: Union[None, str, List[str]] = None,
         array_index: Union[None, int, List[int]] = None,
         load_func: callable = pd.read_parquet,
@@ -123,6 +127,8 @@ class DataLoader:
         for p in sample.unique():
             try:
                 data.append(load_func(p))
+                if isinstance(data[-1], pd.DataFrame):
+                    data[-1].sort_index(inplace=True)
             except Exception as e:
                 if self.errors == 'raise':
                     raise e
@@ -203,11 +209,11 @@ class DataLoader:
             self.age_sex_dataset,
             self.cohort,
             'events.parquet')
-        age_df = pd.read_parquet(age_path)
         align_df = self.dfs[list(self.dfs)[0]]
 
         # TODO: check if research stage is "continuous"
         if ('research_stage' in align_df.columns) or ('research_stage' in align_df.index.names):
+            age_df = pd.read_parquet(age_path)
             self.dfs['age_sex'] = align_df.join(
                 age_df[['age_at_research_stage', 'sex']].droplevel('array_index'))\
                 .rename(columns={'age_at_research_stage': 'age'})
@@ -217,6 +223,7 @@ class DataLoader:
         date_cols = np.array(['collection_timestamp', 'collection_date', 'sequencing_date'])
         date = date_cols[np.isin(date_cols, align_df.columns)][0]  # prefer first match
 
+        age_df = pd.read_parquet(age_path.replace('events', 'population'))
         age_df['birth_date'] = pd.to_datetime(
             age_df['year_of_birth'].astype(str) + '-' + age_df['month_of_birth'].astype(str))
 
@@ -232,6 +239,9 @@ class DataLoader:
         self.dfs = {}
         self.fields = set()
         for relative_location in self.dict['relative_location'].dropna().unique():
+            if any([pattern in relative_location for pattern in self.skip_dfs]):
+                print(f'Skipping {relative_location}')
+                continue
             self.dfs[relative_location.split('.')[0]] = self.__load_one_dataframe__(relative_location)
             self.fields |= set(self.dfs[relative_location.split('.')[0]].columns.tolist())
         self.fields = list(self.fields)
@@ -251,7 +261,15 @@ class DataLoader:
             self.dataset,
             self.cohort,
             relative_location)
-        data =  pd.read_parquet(df_path)
+        try:
+            data =  pd.read_parquet(df_path)
+        except Exception as err:
+            if self.errors == 'raise':
+                raise err
+            if self.errors == 'warn':
+                warnings.warn(f'Error loading {df_path}:\n{err}')
+            return pd.DataFrame()
+
         # set the order of columns according to the dictionary
         dict_columns = self.dict.index.intersection(data.columns)
         other_columns = data.columns.difference(self.dict.index)
