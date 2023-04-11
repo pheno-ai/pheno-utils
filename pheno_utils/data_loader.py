@@ -6,6 +6,7 @@ __all__ = ['DataLoader']
 # %% ../nbs/05_data_loader.ipynb 3
 from glob import glob
 import os
+import re
 from typing import List, Union
 import warnings
 
@@ -30,6 +31,7 @@ class DataLoader:
         unique_index (bool, optional): Whether to ensure the index of the data is unique. Defaults to False.
         valid_dates (bool, optional): Whether to ensure that all timestamps in the data are valid dates. Defaults to False.
         valid_stage (bool, optional): Whether to ensure that all research stages in the data are valid. Defaults to False.
+        flexible_field_search (bool, optional): Whether to allow regex field search. Defaults to False.
         errors (str, optional): Whether to raise an error or issue a warning if missing data is encountered.
             Possible values are 'raise' and 'warn'. Defaults to 'raise'.
 
@@ -46,6 +48,7 @@ class DataLoader:
         unique_index (bool): Whether to ensure the index of the data is unique.
         valid_dates (bool): Whether to ensure that all timestamps in the data are valid dates.
         valid_stage (bool): Whether to ensure that all research stages in the data are valid.
+        flexible_field_search (bool): Whether to allow regex field search.
         errors (str): Whether to raise an error or issue a warning if missing data is encountered.
     """
 
@@ -59,6 +62,7 @@ class DataLoader:
         unique_index: bool = False,
         valid_dates: bool = False,
         valid_stage: bool = False,
+        flexible_field_search: bool = False,
         errors: str = 'raise'
     ) -> None:
         self.dataset = dataset
@@ -69,6 +73,7 @@ class DataLoader:
         self.unique_index = unique_index
         self.valid_dates = valid_dates
         self.valid_stage = valid_stage
+        self.flexible_field_search = flexible_field_search
         self.errors = errors
 
         self.__load_dictionary__()
@@ -193,7 +198,11 @@ class DataLoader:
         """
         data = []
         for df in self.dfs.values():
-            fields_in_col = df.columns.intersection(fields)
+            if self.flexible_field_search:
+                # use fuzzy matching including regex to find fields
+                fields_in_col = [col for f in fields for col in df.columns if re.search(f, col)]
+            else:
+                fields_in_col = df.columns.intersection(fields)
             if len(fields_in_col):
                 data.append(df[fields_in_col])
 
@@ -210,11 +219,11 @@ class DataLoader:
             data = pd.DataFrame()
 
         not_found = np.setdiff1d(fields, data.columns)
-        if len(not_found):
+        if len(not_found) and not self.flexible_field_search:
             if self.errors == 'raise':
                 raise KeyError(f'Fields not found: {not_found}')
             elif self.errors == 'warn':
-                warnings.warn(f'Fileds not found: {not_found}')
+                warnings.warn(f'Fields not found: {not_found}')
 
         return data
 
