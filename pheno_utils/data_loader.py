@@ -265,7 +265,10 @@ class DataLoader:
             if any([pattern in relative_location for pattern in self.skip_dfs]):
                 print(f'Skipping {relative_location}')
                 continue
-            self.dfs[relative_location.split('.')[0]] = self.__load_one_dataframe__(relative_location)
+            df = self.__load_one_dataframe__(relative_location)
+            if df is None:
+                continue
+            self.dfs[relative_location.split('.')[0]] = df
             self.fields |= set(self.dfs[relative_location.split('.')[0]].columns.tolist())
         self.fields = list(self.fields)
 
@@ -291,7 +294,7 @@ class DataLoader:
                 raise err
             if self.errors == 'warn':
                 warnings.warn(f'Error loading {df_path}:\n{err}')
-            return pd.DataFrame()
+            return None
 
         # set the order of columns according to the dictionary
         dict_columns = self.dict.index.intersection(data.columns)
