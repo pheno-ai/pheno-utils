@@ -193,15 +193,21 @@ class DataLoader:
         """
         data = []
         for df in self.dfs.values():
-            fields_in_df = df.columns.intersection(fields)
-            if len(fields_in_df):
-                data.append(df[fields_in_df])
-        data = pd.concat(data, axis=1)
-        data = data.loc[:, ~data.columns.duplicated()]
+            fields_in_col = df.columns.intersection(fields)
+            if len(fields_in_col):
+                data.append(df[fields_in_col])
 
-        fields_in_index = np.intersect1d(fields, data.index.names)
-        for field in fields_in_index:
-            data[field] = data.index.get_level_values(field)
+            fields_in_index = np.intersect1d(df.index.names, fields)
+            if len(fields_in_index):
+                data.append(pd.DataFrame(
+                    df.index.get_level_values(fields_in_index),
+                    index=df.index))
+
+        if len(data):
+            data = pd.concat(data, axis=1)
+            data = data.loc[:, ~data.columns.duplicated()]
+        else:
+            data = pd.DataFrame()
 
         not_found = np.setdiff1d(fields, data.columns)
         if len(not_found):
