@@ -172,7 +172,7 @@ class DataLoader:
         return f'DataLoader for {self.dataset} with' +\
             f'\n{len(self.fields)} fields\n{len(self.dfs)} tables: {list(self.dfs.keys())}'
 
-    def __getitem__(self, fields):
+    def __getitem__(self, fields: Union[str,List[str]]):
         """
         Return data for the specified fields from all tables
 
@@ -182,23 +182,27 @@ class DataLoader:
         Returns:
             pd.DataFrame: Data for the specified fields from all tables
         """
-        if isinstance(fields, str):
-            fields = [fields]
-        return self.__get_data__(fields)
+        return self.get(fields)
 
-    def __get_data__(self, fields):
+    def get(self, fields: Union[str,List[str]], flexible: bool=None):
         """
         Return data for the specified fields from all tables
 
         Args:
             fields (List[str]): Fields to return
+            flexible (bool, optional): Whether to use fuzzy matching to find fields. Defaults to None, which uses the DataLoader's flexible_field_search attribute.
 
         Returns:
             pd.DataFrame: Data for the specified fields from all tables
         """
+        if flexible is None:
+            flexible = self.flexible_field_search
+        if isinstance(fields, str):
+            fields = [fields]
+
         data = []
         for df in self.dfs.values():
-            if self.flexible_field_search:
+            if flexible:
                 # use fuzzy matching including regex to find fields
                 fields_in_col = [col for f in fields for col in df.columns if re.search(f, col)]
             else:
@@ -219,7 +223,7 @@ class DataLoader:
             data = pd.DataFrame()
 
         not_found = np.setdiff1d(fields, data.columns)
-        if len(not_found) and not self.flexible_field_search:
+        if len(not_found) and not flexible:
             if self.errors == 'raise':
                 raise KeyError(f'Fields not found: {not_found}')
             elif self.errors == 'warn':
