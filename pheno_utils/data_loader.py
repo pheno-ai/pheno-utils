@@ -83,7 +83,8 @@ class DataLoader:
         research_stage: Union[None, str, List[str]] = None,
         array_index: Union[None, int, List[int]] = None,
         load_func: callable = pd.read_parquet,
-        concat: bool = True
+        concat: bool = True,
+        pivot=None, **kwargs
     ) -> Union[pd.DataFrame, None]:
         """
         Load time series or bulk data for sample(s).
@@ -94,7 +95,8 @@ class DataLoader:
             research_stage (str or list, optional): The research stage or stages to load data for.
             array_index (int or list, optional): The array index or indices to load data for.
             load_func (callable, optional): The function to use to load the data. Defaults to pd.read
-            concat (bool, optional): Whether to concatenate the data into a single DataFrame. Defaults to True.
+            concat (bool, optional): Whether to concatenate the data into a single DataFrame. Automatically ignored if data is not a DataFrame. Defaults to True.
+            pivot (str, optional): The name of the field to pivot the data on (if DataFrame). Defaults to None.
         """
         query_str = 'participant_id in @participant_id'
         if not isinstance(participant_id, list):
@@ -123,10 +125,11 @@ class DataLoader:
             if len(sample) == 0:
                 return None
 
+        # Load data
         data = []
         for p in sample.unique():
             try:
-                data.append(load_func(p))
+                data.append(load_func(p, **kwargs))
                 if isinstance(data[-1], pd.DataFrame):
                     data[-1].sort_index(inplace=True)
             except Exception as e:
@@ -134,8 +137,15 @@ class DataLoader:
                     raise e
                 elif self.errors == 'warn':
                     warnings.warn(f'Error loading {p}: {e}')
-        if concat:
+
+        # Format the final result
+        if concat and isinstance(data[0], pd.DataFrame):
             data = pd.concat(data, axis=0)
+        if pivot is not None and isinstance(data, pd.DataFrame):
+            if pivot in data.index.names:
+                data = data.reset_index(pivot)
+            data = data.pivot(columns=pivot)
+
         return data
 
     def __repr__(self):
