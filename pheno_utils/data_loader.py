@@ -213,15 +213,21 @@ class DataLoader:
             'events.parquet')
         align_df = self.dfs[list(self.dfs)[0]]
 
-        # TODO: check if research stage is "continuous"
         if ('research_stage' in align_df.columns) or ('research_stage' in align_df.index.names):
             age_df = pd.read_parquet(age_path)
             self.dfs['age_sex'] = align_df.join(
                 age_df[['age_at_research_stage', 'sex']].droplevel('array_index'))\
                 .rename(columns={'age_at_research_stage': 'age'})
-            self.fields += ['age', 'sex']
+        else:
+            # init an empty df
+            self.dfs['age_sex'] = pd.DataFrame(index=align_df.index).assign(age=np.nan, sex=np.nan)
+
+        self.fields += ['age', 'sex']
+        ind = self.dfs['age_sex'].isnull().any(axis=1)
+        if ind.sum() == 0:  # no missing values
             return
 
+        # fill in missing values by computing age from birth date
         date_cols = np.array(['collection_timestamp', 'collection_date', 'sequencing_date'])
         date = date_cols[np.isin(date_cols, align_df.columns)][0]  # prefer first match
 
@@ -229,10 +235,9 @@ class DataLoader:
         age_df['birth_date'] = pd.to_datetime(
             age_df['year_of_birth'].astype(str) + '-' + age_df['month_of_birth'].astype(str))
 
-        self.dfs['age_sex'] = align_df[[date]].join(age_df[['sex', 'birth_date']])\
+        self.dfs['age_sex'].loc[ind, :] = align_df.loc[ind, [date]].join(age_df[['sex', 'birth_date']])\
             .assign(age=lambda x: ((x[date].dt.date - x['birth_date'].dt.date).dt.days / 365.25).round(1))\
             .drop(columns=['birth_date'])
-        self.fields += ['age', 'sex']
 
     def __load_dataframes__(self) -> None:
         """
