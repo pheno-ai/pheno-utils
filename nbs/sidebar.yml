@@ -8,3 +8,4 @@ website:
       - 03_age_reference_plots.ipynb
       - 04_date_plots.ipynb
       - 05_data_loader.ipynb
+      - 06_sleep_plots.ipynb
