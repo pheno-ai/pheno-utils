@@ -246,7 +246,7 @@ class DataLoader:
             age_df = pd.read_parquet(age_path)
             self.dfs['age_sex'] = align_df.join(
                 age_df[['age_at_research_stage', 'sex']].droplevel('array_index'))\
-                .rename(columns={'age_at_research_stage': 'age'})
+                .rename(columns={'age_at_research_stage': 'age'})[['age', 'sex']]
         else:
             # init an empty df
             self.dfs['age_sex'] = pd.DataFrame(index=align_df.index).assign(age=np.nan, sex=np.nan)
