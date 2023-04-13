@@ -204,7 +204,7 @@ class DataLoader:
         for df in self.dfs.values():
             if flexible:
                 # use fuzzy matching including regex to find fields
-                fields_in_col = [col for f in fields for col in df.columns if re.search(f, col)]
+                fields_in_col = np.unique([col for f in fields for col in df.columns if re.search(f, col)])
             else:
                 fields_in_col = df.columns.intersection(fields)
             if len(fields_in_col):
