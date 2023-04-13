@@ -257,12 +257,16 @@ class DataLoader:
 
         self.fields += ['age', 'sex']
         ind = self.dfs['age_sex'].isnull().any(axis=1)
-        if ind.sum() == 0:  # no missing values
+        if not ind.any():  # no missing values
             return
 
         # fill in missing values by computing age from birth date
         date_cols = np.array(['collection_timestamp', 'collection_date', 'sequencing_date'])
         date = date_cols[np.isin(date_cols, align_df.columns)][0]  # prefer first match
+
+        ind &= align_df[date].notnull()
+        if not ind.any():
+            return
 
         age_df = pd.read_parquet(age_path.replace('events', 'population'))
         age_df['birth_date'] = pd.to_datetime(
