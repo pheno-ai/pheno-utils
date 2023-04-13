@@ -266,7 +266,7 @@ class DataLoader:
 
         self.dfs['age_sex'].loc[ind, :] = align_df.loc[ind, [date]].join(age_df[['sex', 'birth_date']])\
             .assign(age=lambda x: ((x[date].dt.date - x['birth_date'].dt.date).dt.days / 365.25).round(1))\
-            .drop(columns=['birth_date'])
+            [['age', 'sex']]
 
     def __load_dataframes__(self) -> None:
         """
