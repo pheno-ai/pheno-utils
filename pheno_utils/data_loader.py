@@ -276,9 +276,15 @@ class DataLoader:
         age_df['birth_date'] = pd.to_datetime(
             age_df['year_of_birth'].astype(str) + '-' + age_df['month_of_birth'].astype(str))
 
-        self.dfs['age_sex'].loc[ind, :] = align_df.loc[ind, [date]].join(age_df[['sex', 'birth_date']])\
+        # trying a workaround for a pandas deprecation warning
+        age_sex = self.dfs['age_sex']
+        missing_age_sex = align_df.loc[ind, [date]].join(age_df[['sex', 'birth_date']])\
             .assign(age=lambda x: ((x[date].dt.date - x['birth_date'].dt.date).dt.days / 365.25).round(1))\
             [['age', 'sex']]
+        age_sex = age_sex.join(missing_age_sex, rsuffix='_miss')
+        age_sex['age'] = age_sex['age'].fillna(age_sex['age_miss'])
+        age_sex['sex'] = age_sex['sex'].fillna(age_sex['sex_miss'])
+        self.dfs['age_sex'] = age_sex[['age', 'sex']]
 
     def __load_dataframes__(self) -> None:
         """
