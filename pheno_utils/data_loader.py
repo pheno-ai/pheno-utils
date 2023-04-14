@@ -291,7 +291,7 @@ class DataLoader:
                 continue
             self.dfs[relative_location.split('.')[0]] = df
             self.fields |= set(self.dfs[relative_location.split('.')[0]].columns.tolist())
-        self.fields = list(self.fields)
+        self.fields = sorted(list(self.fields))
 
     def __load_one_dataframe__(self, relative_location: str) -> pd.DataFrame:
         """
