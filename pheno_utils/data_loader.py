@@ -204,27 +204,24 @@ class DataLoader:
         if isinstance(fields, str):
             fields = [fields]
 
-        data = []
+        data = pd.DataFrame()
         for df in self.dfs.values():
             if flexible:
                 # use fuzzy matching including regex to find fields
                 fields_in_col = np.unique([col for f in fields for col in df.columns if re.search(f, col)])
             else:
-                fields_in_col = df.columns.intersection(fields)
+                fields_in_col = df.columns.intersection(fields).difference(data.columns)
             if len(fields_in_col):
-                data.append(df[fields_in_col])
+                data = self.__concat__(data, df[fields_in_col])
 
-            fields_in_index = np.intersect1d(df.index.names, fields)
+            fields_in_index = np.setdiff1d(np.intersect1d(df.index.names, fields), data.columns)
             if len(fields_in_index):
-                data.append(pd.DataFrame(
-                    df.index.get_level_values(fields_in_index),
-                    index=df.index))
+                data = self.__concat__(
+                    data,
+                    pd.DataFrame(df.index.get_level_values(fields_in_index), index=df.index))
 
         if len(data):
-            data = pd.concat(data, axis=1)
             data = data.loc[:, ~data.columns.duplicated()]
-        else:
-            data = pd.DataFrame()
 
         not_found = np.setdiff1d(fields, data.columns)
         if len(not_found) and not flexible:
@@ -234,6 +231,13 @@ class DataLoader:
                 warnings.warn(f'Fields not found: {not_found}')
 
         return data
+
+    def __concat__(self, df1, df2):
+        if df1.empty:
+            return df2
+        if df2.empty:
+            return df1
+        return df1.join(df2, how='outer')
 
     def __load_age_sex__(self) -> None:
         """
@@ -290,6 +294,8 @@ class DataLoader:
             if df is None:
                 continue
             self.dfs[relative_location.split('.')[0]] = df
+            if not df.index.is_unique:
+                print('Warning: index is not unique for', relative_location)
             self.fields |= set(self.dfs[relative_location.split('.')[0]].columns.tolist())
         self.fields = sorted(list(self.fields))
 
