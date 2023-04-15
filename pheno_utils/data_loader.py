@@ -7,15 +7,18 @@ __all__ = ['DataLoader']
 from glob import glob
 import os
 import re
-from typing import List, Union
+from typing import List, Any, Dict, Union
 import warnings
 
 import numpy as np
 import pandas as pd
 
-from .config import *
-
 # %% ../nbs/05_data_loader.ipynb 4
+from .config import *
+from .basic_analysis import *
+from .basic_plots import *
+
+# %% ../nbs/05_data_loader.ipynb 5
 class DataLoader:
     """
     Class to load multiple tables from a dataset and allows to easily access
@@ -371,3 +374,23 @@ class DataLoader:
         if path.startswith('s3://'):
            return path
         return glob(path)[0]
+    
+    def describe_field(self, fields: Union[str,List[str]], return_summary: bool=False):
+        """
+        Display a summary dataframe for the specified fields from all tables
+
+        Args:
+            fields (List[str]): Fields to return
+            return_summary (Bool): whether to return the summary dataframe
+        
+        Returns:
+            pd.DataFrame: Data for the specified fields from all tables
+        """
+        if isinstance(fields, str):
+            fields = [fields]
+            
+        summary_df = pd.concat([self.dict.loc[fields,:].T,
+                                custom_describe(self[fields])])
+        display(summary_df)
+        if return_summary:
+            return summary_df
