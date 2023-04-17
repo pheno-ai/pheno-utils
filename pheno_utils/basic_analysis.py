@@ -11,10 +11,10 @@ import seaborn as sns
 from typing import List, Any, Dict, Union, Optional
 
 
-# %% ../nbs/07_basic_analysis.ipynb 4
+# %% ../nbs/07_basic_analysis.ipynb 5
 from .config import *
 
-# %% ../nbs/07_basic_analysis.ipynb 5
+# %% ../nbs/07_basic_analysis.ipynb 6
 def custom_describe(df: pd.DataFrame) -> pd.DataFrame:
     """
     Generates a custom summary statistics dataframe for mixed data types.

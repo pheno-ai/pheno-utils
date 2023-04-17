@@ -17,8 +17,11 @@ ALL_COLOR = "C5"
 GLUC_COLOR = "C0"
 FOOD_COLOR = "C1"
 
-DATASETS_PATH = '/home/ec2-user/studies/'
-POPULATION_DATASET = 'Population_Characteristics'
+# DATASETS_PATH = '/home/ec2-user/studies/'
+# POPULATION_DATASET = 'Population_Characteristics'
+
+DATASETS_PATH = '/home/ec2-user/studies/hpp/'
+POPULATION_DATASET = 'population'
 
 # %% ../nbs/00_config.ipynb 5
 def generate_synthetic_data(n: int = 1000) -> pd.DataFrame:

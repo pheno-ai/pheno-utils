@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from typing import Optional
 from PIL import Image
+from smart_open import open
 
 # %% ../nbs/01_basic_plots.ipynb 4
 from .config import *
