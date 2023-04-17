@@ -122,7 +122,7 @@ class DataLoader:
         if isinstance(where_field['parent_dataframe'], str):
             field_name = where_field['parent_dataframe']
 
-        sample = self[[field_name] + ['participant_id']].query(query_str)
+        sample = self[[field_name] + ['participant_id']].query(query_str).astype({field_name: str})
         missing_participants = np.setdiff1d(participant_id, sample['participant_id'].unique())
         sample = os.path.join(
             self.base_path,
