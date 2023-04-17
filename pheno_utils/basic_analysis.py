@@ -87,7 +87,7 @@ def assign_nearest_research_stage(dataset: pd.DataFrame,
         dataset (pd.DataFrame): The dataset containing records to be assigned research stages.
         population (pd.DataFrame): The population data with participant_id, cohort, research_stage, and research_stage_date.
         max_days (int, optional): The maximum number of days allowed between the collection date and research stage date. Defaults to 60.
-        stages (List[str], optional): The list of research stages to consider. Defaults to ['visit'].
+        stages (List[str], optional): The list of types of research stages to consider. Defaults to ['visit'].
         agg (Union[str, None], optional): The aggregation function to be used when grouping data. 
                                           Can be 'first', 'last', 'mean', 'min', 'max', or None. Defaults to 'first'.
 
