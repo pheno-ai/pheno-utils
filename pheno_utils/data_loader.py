@@ -46,6 +46,7 @@ class DataLoader:
         dataset (str): The name of the dataset being used.
         cohort (str): The name of the cohort being used.
         base_path (str): The base path where the data is stored.
+        dataset_path (str): The full path to the dataset being used.
         age_sex_dataset (str): The name of the dataset being used to compute age and sex.
         skip_dfs (list): A list of tables to skip when loading the data.
         unique_index (bool): Whether to ensure the index of the data is unique.
@@ -71,6 +72,7 @@ class DataLoader:
         self.dataset = dataset
         self.cohort = cohort
         self.base_path = base_path
+        self.dataset_path = self.__get_dataset_path__(self.dataset)
         self.age_sex_dataset = age_sex_dataset
         self.skip_dfs = skip_dfs
         self.unique_index = unique_index
@@ -124,10 +126,7 @@ class DataLoader:
 
         sample = self[[field_name] + ['participant_id']].query(query_str).astype({field_name: str})
         missing_participants = np.setdiff1d(participant_id, sample['participant_id'].unique())
-        sample = os.path.join(
-            self.base_path,
-            self.dataset,
-            self.cohort) + '/' + sample.iloc[:, 0]
+        sample = self.dataset_path + '/' + sample.iloc[:, 0]
 
         if len(missing_participants):
             if self.errors == 'raise':
@@ -246,11 +245,7 @@ class DataLoader:
         """
         Add sex and compute age from birth date.
         """
-        age_path = os.path.join(
-            self.base_path,
-            self.age_sex_dataset,
-            self.cohort,
-            'events.parquet')
+        age_path = os.path.join(self.__get_dataset_path__('population'), 'events.parquet')
         align_df = self.dfs[list(self.dfs)[0]]
 
         if ('research_stage' in align_df.columns) or ('research_stage' in align_df.index.names):
@@ -318,11 +313,7 @@ class DataLoader:
         Returns:
             pd.DataFrame: the loaded dataframe
         """
-        df_path = os.path.join(
-            self.base_path,
-            self.dataset,
-            self.cohort,
-            relative_location)
+        df_path = os.path.join(self.dataset_path, relative_location)
         try:
             data =  pd.read_parquet(df_path)
         except Exception as err:
@@ -370,11 +361,25 @@ class DataLoader:
         Returns:
             str: the path to the file
         """
-        path = os.path.join(self.base_path, dataset, self.cohort, '*.' + extension)
+        path = os.path.join(self.dataset_path, '*.' + extension)
         if path.startswith('s3://'):
            return path
         return glob(path)[0]
-    
+
+    def __get_dataset_path__(self, dataset):
+        """
+        Get the dataset path.
+        
+        Args:
+            dataset (str): the name of the dataset
+
+        Returns:
+            str: the path to the dataset
+        """
+        if self.cohort is not None:
+            return os.path.join(self.base_path, dataset, self.cohort)
+        return os.path.join(self.base_path, dataset)
+
     def describe_field(self, fields: Union[str,List[str]], return_summary: bool=False):
         """
         Display a summary dataframe for the specified fields from all tables
