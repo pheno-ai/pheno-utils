@@ -73,7 +73,10 @@ class DataLoader:
         self.cohort = cohort
         self.base_path = base_path
         self.dataset_path = self.__get_dataset_path__(self.dataset)
-        self.age_sex_dataset = age_sex_dataset
+        if self.dataset != age_sex_dataset:
+            self.age_sex_dataset = age_sex_dataset
+        else:
+            self.age_sex_dataset = None
         self.skip_dfs = skip_dfs
         self.unique_index = unique_index
         self.valid_dates = valid_dates
