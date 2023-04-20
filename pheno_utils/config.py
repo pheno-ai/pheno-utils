@@ -2,9 +2,11 @@
 
 # %% auto 0
 __all__ = ['REF_COLOR', 'FEMALE_COLOR', 'MALE_COLOR', 'ALL_COLOR', 'GLUC_COLOR', 'FOOD_COLOR', 'DATASETS_PATH',
-           'POPULATION_DATASET', 'generate_synthetic_data', 'generate_synthetic_data_like']
+           'POPULATION_DATASET', 'CONFIG_FILES', 'generate_synthetic_data', 'generate_synthetic_data_like']
 
 # %% ../nbs/00_config.ipynb 3
+import os
+
 import numpy as np
 import pandas as pd
 
@@ -22,6 +24,19 @@ FOOD_COLOR = "C1"
 
 DATASETS_PATH = '/home/ec2-user/studies/hpp/'
 POPULATION_DATASET = 'population'
+CONFIG_FILES = ['~/.pheno/config', '/efs/.pheno/config']
+
+for cf in CONFIG_FILES:
+    cf = os.path.expanduser(cf)
+    if not os.path.isfile(cf):
+        continue
+    with open(cf, 'r') as f:
+        for line in f:
+            if line.startswith('DATASETS_PATH'):
+                DATASETS_PATH = line.split('=')[1].strip()
+            elif line.startswith('POPULATION_DATASET'):
+                POPULATION_DATASET = line.split('=')[1].strip()
+
 
 # %% ../nbs/00_config.ipynb 5
 def generate_synthetic_data(n: int = 1000) -> pd.DataFrame:
