@@ -27,9 +27,9 @@ class DataLoader:
     Args:
     
         dataset (str): The name of the dataset to load.
-        base_path (str, optional): The base path where the data is stored. Defaults to '/home/ec2-user/studies'.
-        cohort (str, optional): The name of the cohort within the dataset. Defaults to '10k'.
-        age_sex_dataset (str, optional): The name of the dataset to use for computing age and sex. Defaults to 'Population_Characteristics'.
+        base_path (str, optional): The base path where the data is stored. Defaults to DATASETS_PATH.
+        cohort (str, optional): The name of the cohort within the dataset. Defaults to COHORT.
+        age_sex_dataset (str, optional): The name of the dataset to use for computing age and sex. Defaults to POPULATION_DATASET.
         skip_dfs (list, optional): A list of tables (or substrings that match to tables) to skip when loading the data. Defaults to [].
         unique_index (bool, optional): Whether to ensure the index of the data is unique. Defaults to False.
         valid_dates (bool, optional): Whether to ensure that all timestamps in the data are valid dates. Defaults to False.
@@ -60,7 +60,7 @@ class DataLoader:
         self,
         dataset: str,
         base_path: str = DATASETS_PATH,
-        cohort: str = '10k',
+        cohort: str = COHORT,
         age_sex_dataset: str = POPULATION_DATASET,
         skip_dfs: List[str] = [],
         unique_index: bool = False,
