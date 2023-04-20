@@ -38,6 +38,7 @@ for cf in CONFIG_FILES:
                 COHORT = line.split('=')[1].strip()
                 if (len(COHORT) == 0) or (COHORT == 'None'):
                     COHORT = None
+    break
 
 
 # %% ../nbs/00_config.ipynb 5
