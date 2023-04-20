@@ -19,9 +19,6 @@ ALL_COLOR = "C5"
 GLUC_COLOR = "C0"
 FOOD_COLOR = "C1"
 
-# DATASETS_PATH = '/home/ec2-user/studies/'
-# POPULATION_DATASET = 'Population_Characteristics'
-
 DATASETS_PATH = '/home/ec2-user/studies/hpp/'
 POPULATION_DATASET = 'population'
 CONFIG_FILES = ['~/.pheno/config', '/efs/.pheno/config']
