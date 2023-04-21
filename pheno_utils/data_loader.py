@@ -220,10 +220,10 @@ class DataLoader:
                 data = self.__concat__(data, df[fields_in_col])
 
             fields_in_index = np.setdiff1d(np.intersect1d(df.index.names, fields), data.columns)
-            if len(fields_in_index):
+            for field in fields_in_index:
                 data = self.__concat__(
                     data,
-                    pd.DataFrame(df.index.get_level_values(fields_in_index), index=df.index))
+                    pd.DataFrame(df.index.get_level_values(field), index=df.index))
 
         if len(data):
             data = data.loc[:, ~data.columns.duplicated()]
