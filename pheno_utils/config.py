@@ -22,7 +22,7 @@ FOOD_COLOR = "C1"
 DATASETS_PATH = '/home/ec2-user/studies/hpp/'
 COHORT = '10k'
 POPULATION_DATASET = 'population'
-CONFIG_FILES = ['~/.pheno/config', '/efs/.pheno/config']
+CONFIG_FILES = ['.pheno/config', '~/.pheno/config', '/efs/.pheno/config']
 
 for cf in CONFIG_FILES:
     cf = os.path.expanduser(cf)
