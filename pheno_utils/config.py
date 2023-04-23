@@ -2,7 +2,8 @@
 
 # %% auto 0
 __all__ = ['REF_COLOR', 'FEMALE_COLOR', 'MALE_COLOR', 'ALL_COLOR', 'GLUC_COLOR', 'FOOD_COLOR', 'DATASETS_PATH', 'COHORT',
-           'POPULATION_DATASET', 'CONFIG_FILES', 'generate_synthetic_data', 'generate_synthetic_data_like']
+           'POPULATION_DATASET', 'ERROR_ACTION', 'CONFIG_FILES', 'generate_synthetic_data',
+           'generate_synthetic_data_like']
 
 # %% ../nbs/00_config.ipynb 3
 import os
@@ -22,6 +23,7 @@ FOOD_COLOR = "C1"
 DATASETS_PATH = '/home/ec2-user/studies/hpp/'
 COHORT = '10k'
 POPULATION_DATASET = 'population'
+ERROR_ACTION = 'raise'
 CONFIG_FILES = ['.pheno/config', '~/.pheno/config', '/efs/.pheno/config']
 
 for cf in CONFIG_FILES:
@@ -38,6 +40,8 @@ for cf in CONFIG_FILES:
                 COHORT = line.split('=')[1].strip()
                 if (len(COHORT) == 0) or (COHORT == 'None'):
                     COHORT = None
+            elif line.startswith('ERROR_ACTION'):
+                ERROR_ACTION = line.split('=')[1].strip()
     break
 
 

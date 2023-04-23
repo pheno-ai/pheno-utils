@@ -36,7 +36,7 @@ class DataLoader:
         valid_stage (bool, optional): Whether to ensure that all research stages in the data are valid. Defaults to False.
         flexible_field_search (bool, optional): Whether to allow regex field search. Defaults to False.
         errors (str, optional): Whether to raise an error or issue a warning if missing data is encountered.
-            Possible values are 'raise' and 'warn'. Defaults to 'raise'.
+            Possible values are 'raise', 'warn' and 'ignore'. Defaults to 'raise'.
 
     Attributes:
     
@@ -67,7 +67,7 @@ class DataLoader:
         valid_dates: bool = False,
         valid_stage: bool = False,
         flexible_field_search: bool = False,
-        errors: str = 'raise'
+        errors: str = ERROR_ACTION,
     ) -> None:
         self.dataset = dataset
         self.cohort = cohort
@@ -248,14 +248,23 @@ class DataLoader:
         """
         Add sex and compute age from birth date.
         """
-        age_path = os.path.join(self.__get_dataset_path__('population'), 'events.parquet')
+        age_path = os.path.join(self.__get_dataset_path__(self.age_sex_dataset), 'events.parquet')
         align_df = self.dfs[list(self.dfs)[0]]
 
         if ('research_stage' in align_df.columns) or ('research_stage' in align_df.index.names):
-            age_df = pd.read_parquet(age_path)
-            self.dfs['age_sex'] = align_df.join(
-                age_df[['age_at_research_stage', 'sex']].droplevel('array_index'))\
-                .rename(columns={'age_at_research_stage': 'age'})[['age', 'sex']]
+            try:
+                age_df = pd.read_parquet(age_path)
+                self.dfs['age_sex'] = align_df.join(
+                    age_df[['age_at_research_stage', 'sex']].droplevel('array_index'))\
+                    .rename(columns={'age_at_research_stage': 'age'})[['age', 'sex']]
+
+            except Exception as e:
+                if self.errors == 'raise':
+                    raise(e)
+                elif self.errors == 'warn':
+                    warnings.warn(f'Error joining research_stage: {e}')
+                self.dfs['age_sex'] = pd.DataFrame(index=align_df.index).assign(age=np.nan, sex=np.nan)
+
         else:
             # init an empty df
             self.dfs['age_sex'] = pd.DataFrame(index=align_df.index).assign(age=np.nan, sex=np.nan)
@@ -266,7 +275,7 @@ class DataLoader:
             return
 
         # fill in missing values by computing age from birth date
-        date_cols = np.array(['collection_timestamp', 'collection_date', 'sequencing_date'])
+        date_cols = np.array(['collection_date', 'collection_timestamp', 'sequencing_date'])
         date = date_cols[np.isin(date_cols, align_df.columns)][0]  # prefer first match
 
         ind &= align_df[date].notnull()
@@ -274,15 +283,24 @@ class DataLoader:
             return
 
         age_df = pd.read_parquet(age_path.replace('events', 'population'))
-        age_df['birth_date'] = pd.to_datetime(
-            age_df['year_of_birth'].astype(str) + '-' + age_df['month_of_birth'].astype(str))
 
         # trying a workaround for a pandas deprecation warning
         age_sex = self.dfs['age_sex']
-        missing_age_sex = align_df.loc[ind, [date]].join(age_df[['sex', 'birth_date']])\
-            .assign(age=lambda x: ((x[date].dt.date - x['birth_date'].dt.date).dt.days / 365.25).round(1))\
-            [['age', 'sex']]
-        age_sex = age_sex.join(missing_age_sex, rsuffix='_miss')
+        try:
+            age_df['birth_date'] = pd.to_datetime(
+                age_df['year_of_birth'].astype(str) + '-' + age_df['month_of_birth'].astype(str))
+            missing_age_sex = align_df.loc[ind, [date]].join(age_df[['sex', 'birth_date']])\
+                .assign(age=lambda x: ((x[date].dt.date - x['birth_date'].dt.date).dt.days / 365.25).round(1))\
+                [['age', 'sex']]
+            age_sex = age_sex.join(missing_age_sex, rsuffix='_miss')
+
+        except Exception as e:
+            if self.errors == 'raise':
+                raise(e)
+            elif self.errors == 'warn':
+                warnings.warn(f'Error joining on {date}: {e}')
+            age_sex = age_sex.join(age_df[['sex']], rsuffix='_miss').assign(age_miss=np.nan)
+
         age_sex['age'] = age_sex['age'].fillna(age_sex['age_miss'])
         age_sex['sex'] = age_sex['sex'].fillna(age_sex['sex_miss'])
         self.dfs['age_sex'] = age_sex[['age', 'sex']]
