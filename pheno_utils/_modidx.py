@@ -104,4 +104,6 @@ d = { 'settings': { 'branch': 'main',
                                          'pheno_utils.sleep_plots.plot_events': ( 'sleep_plots.html#plot_events',
                                                                                   'pheno_utils/sleep_plots.py'),
                                          'pheno_utils.sleep_plots.plot_sleep': ( 'sleep_plots.html#plot_sleep',
-                                                                                 'pheno_utils/sleep_plots.py')}}}
+                                                                                 'pheno_utils/sleep_plots.py')},
+            'pheno_utils.subset_loader': { 'pheno_utils.subset_loader.load_subset': ( 'subset_loader.html#load_subset',
+                                                                                      'pheno_utils/subset_loader.py')}}}
