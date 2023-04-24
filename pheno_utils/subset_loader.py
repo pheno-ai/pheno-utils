@@ -23,5 +23,17 @@ subset_path = {'train': '/home/ec2-user/studies/train_datasets',
                'test_backup': '/efs/.pheno/test_datasets_backup'}
 
 # %% ../nbs/10_subset_loader.ipynb 5
-def load_subset(dataset, subset):
+def load_subset(dataset: str, subset: str):
+    """
+    Wrapper for loading a train/test subset of a dataset.
+
+    Args:
+
+        dataset (str): Name of the dataset to load.
+        subset (str): Can be one of 'train', 'test_01', 'test_02', 'test_final'.
+
+    Returns:
+
+        DataLoader: A DataLoader object for the specified subset of the dataset.
+    """
     return PhenoLoader(dataset, subset_path[subset])
