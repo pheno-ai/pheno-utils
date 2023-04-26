@@ -123,11 +123,9 @@ class DataLoader:
                 array_index = [array_index]
             query_str += ' and array_index in @array_index'
 
-        where_field = self.dict.loc[field_name]
-        if isinstance(where_field['parent_dataframe'], str):
-            field_name = where_field['parent_dataframe']
-
-        sample = self[[field_name] + ['participant_id']].query(query_str).astype({field_name: str})
+        sample = self[[field_name] + ['participant_id']].query(query_str)
+        col = sample.columns[0]  # can be different from field_name is a parent_dataframe is implied
+        sample = sample.astype({col: str})
         missing_participants = np.setdiff1d(participant_id, sample['participant_id'].unique())
         sample = self.dataset_path + '/' + sample.iloc[:, 0]
 
@@ -208,6 +206,10 @@ class DataLoader:
             flexible = self.flexible_field_search
         if isinstance(fields, str):
             fields = [fields]
+
+        # check whether any field points to a parent_dataframe
+        has_parent = self.dict.loc[self.dict.index.isin(fields), 'parent_dataframe'].dropna()
+        fields += has_parent.unique().tolist()
 
         data = pd.DataFrame()
         for df in self.dfs.values():
