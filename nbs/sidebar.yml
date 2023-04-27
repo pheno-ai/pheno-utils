@@ -1,11 +1,24 @@
 website:
   sidebar:
+    style: "docked"
+    search: true
+    collapse-level: 1
     contents:
       - index.ipynb
-      - 00_config.ipynb
-      - 01_basic_plots.ipynb
-      - 02_blandaltman_plots.ipynb
-      - 03_age_reference_plots.ipynb
-      - 04_date_plots.ipynb
       - 05_data_loader.ipynb
-      - 06_sleep_plots.ipynb
+      - 10_subset_loader.ipynb
+      - 11_meta_loader.ipynb
+      - section: "plots"
+        contents:
+           - 01_basic_plots.ipynb
+           - 02_blandaltman_plots.ipynb
+           - 03_age_reference_plots.ipynb
+           - 04_date_plots.ipynb
+           - 06_sleep_plots.ipynb
+       - section: "analysis"
+         contents:
+           - 07_basic_analysis.ipynb
+           - 09_ecg_analysis.ipynb         
+       - section: "other"
+          contents:
+           - 00_config.ipynb
