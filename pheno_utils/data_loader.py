@@ -277,8 +277,15 @@ class DataLoader:
             return
 
         # fill in missing values by computing age from birth date
-        date_cols = np.array(['collection_date', 'collection_timestamp', 'sequencing_date'])
-        date = date_cols[np.isin(date_cols, align_df.columns)][0]  # prefer first match
+        try:
+            date_cols = np.array(['collection_date', 'collection_timestamp', 'sequencing_date'])
+            date = date_cols[np.isin(date_cols, align_df.columns)][0]  # prefer first match
+        except Exception as e:
+            if self.errors == 'raise':
+                raise(e)
+            elif self.errors == 'warn':
+                warnings.warn(f'No date field found')
+            return
 
         ind &= align_df[date].notnull()
         if not ind.any():
