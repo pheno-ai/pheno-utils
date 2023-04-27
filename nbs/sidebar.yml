@@ -15,10 +15,10 @@ website:
           - 03_age_reference_plots.ipynb
           - 04_date_plots.ipynb
           - 06_sleep_plots.ipynb
-       - section: "analysis"
-         contents:
-           - 07_basic_analysis.ipynb
-           - 09_ecg_analysis.ipynb         
-       - section: "other"
-          contents:
-            - 00_config.ipynb
+      - section: "analysis"
+        contents:
+          - 07_basic_analysis.ipynb
+          - 09_ecg_analysis.ipynb         
+      - section: "other"
+        contents:
+          - 00_config.ipynb
