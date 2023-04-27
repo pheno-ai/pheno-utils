@@ -2,23 +2,25 @@ website:
   sidebar:
     style: "docked"
     search: true
-    collapse-level: 1
+    collapse-level: 2
     contents:
       - index.ipynb
-      - 05_data_loader.ipynb
-      - 10_subset_loader.ipynb
-      - 11_meta_loader.ipynb
-      - section: "plots"
+      - section: "Data Loaders"
+        contents:
+          - 05_data_loader.ipynb
+          - 11_meta_loader.ipynb
+          - 10_subset_loader.ipynb
+      - section: "Plots"
         contents:
           - 01_basic_plots.ipynb
           - 02_blandaltman_plots.ipynb
           - 03_age_reference_plots.ipynb
           - 04_date_plots.ipynb
           - 06_sleep_plots.ipynb
-      - section: "analysis"
+      - section: "Analysis"
         contents:
           - 07_basic_analysis.ipynb
           - 09_ecg_analysis.ipynb         
-      - section: "other"
+      - section: "Other"
         contents:
           - 00_config.ipynb
