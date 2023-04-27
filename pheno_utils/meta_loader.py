@@ -71,14 +71,24 @@ class MetaLoader:
         Returns:
             pd.DataFrame: Dataframe containing the fields from the respective datasets.
         """
+        found_fields = self.get(fields, flexible, prop)
+        found_fields.columns = found_fields.columns.str.split('/').str[1]
+        dup_fields = found_fields.columns.value_counts()\
+            .to_frame('count').query('count > 1').index
+
         loaded_fields = []
-        for ds, f in self.get(fields, flexible, prop).T.groupby('dataset'):
-            df = PhenoLoader(ds, base_path=self.base_path, cohort=self.cohort, **self.kwargs)\
-                [f.index.str.replace(f'{ds}/', '').tolist()]
-            if len(loaded_fields):
-                loaded_fields = loaded_fields.join(df, how='outer')
-            else:
+        for ds, f in found_fields.T.groupby('dataset'):
+            df = PhenoLoader(ds, base_path=self.base_path, cohort=self.cohort,
+                             age_sex_dataset=None, **self.kwargs)\
+                [f.index.tolist()]
+            # rename duplicate fields
+            df = df.rename(columns=pd.Series(dup_fields + f'_{ds}', index=dup_fields))
+
+            if not len(loaded_fields):
                 loaded_fields = df
+                continue
+
+            loaded_fields = loaded_fields.join(df, how='outer')
 
         return loaded_fields
 
@@ -136,8 +146,8 @@ class MetaLoader:
             str: String representation of object
         """
         ds_list = str(list(self.dicts.keys())).replace(',', '\n')
-        return f'MetaLoader for: {self.dataset_path}' +\
-            f'with \n{len(self.fields)} fields\n{len(self.dicts)} datasets:\n{ds_list}'
+        return f'MetaLoader for: {self.dataset_path}\n' + \
+            f'with {len(self.fields)} fields\n{len(self.dicts)} datasets:\n{ds_list}'
 
     def __getitem__(self, fields: Union[str,List[str]]):
         """
