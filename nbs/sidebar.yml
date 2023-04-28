@@ -17,6 +17,7 @@ website:
           - 03_age_reference_plots.ipynb
           - 04_date_plots.ipynb
           - 06_sleep_plots.ipynb
+          - 08_cgm_plots.ipynb
       - section: "Analysis"
         contents:
           - 07_basic_analysis.ipynb
