@@ -18,7 +18,7 @@ subset_path = {'train': '/home/ec2-user/studies/train_datasets',
                'test_backup': '/efs/.pheno/test_datasets_backup'}
 
 # %% ../nbs/10_subset_loader.ipynb 5
-def load_subset(subset: str, dataset: str=None, loader: str='data', **kwargs):
+def load_subset(subset: str, dataset: str=None, loader: str='data', age_sex_dataset=None, **kwargs):
     """
     Wrapper for loading a train/test subset of a dataset.
     Args:
@@ -37,4 +37,4 @@ def load_subset(subset: str, dataset: str=None, loader: str='data', **kwargs):
     if loader == 'meta':
         return MetaLoader(base_path=subset_path[subset], **kwargs)
 
-    return PhenoLoader(dataset, base_path=subset_path[subset], **kwargs)
+    return PhenoLoader(dataset, base_path=subset_path[subset], age_sex_dataset=age_sex_dataset, **kwargs)
