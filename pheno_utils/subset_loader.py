@@ -4,17 +4,12 @@
 __all__ = ['subset_path', 'load_subset']
 
 # %% ../nbs/10_subset_loader.ipynb 3
-import os
-import re
-from typing import List, Any, Dict, Union
-import warnings
-
 import numpy as np
 import pandas as pd
 
 # %% ../nbs/10_subset_loader.ipynb 4
 from .config import *
-from . import PhenoLoader
+from . import PhenoLoader, MetaLoader
 
 subset_path = {'train': '/home/ec2-user/studies/train_datasets',
                'test_01': '/efs/.pheno/test_datasets_01',
@@ -23,14 +18,23 @@ subset_path = {'train': '/home/ec2-user/studies/train_datasets',
                'test_backup': '/efs/.pheno/test_datasets_backup'}
 
 # %% ../nbs/10_subset_loader.ipynb 5
-def load_subset(dataset: str, subset: str, **kwargs):
+def load_subset(subset: str, dataset: str=None, loader: str='data', **kwargs):
     """
     Wrapper for loading a train/test subset of a dataset.
     Args:
-        dataset (str): Name of the dataset to load.
+
         subset (str): Can be one of 'train', 'test_01', 'test_02', 'test_final'.
-        **kwargs: Additional keyword arguments to be passed to PhenoLoader.
+        dataset (str): Name of the dataset to load. Not needed when requesting a MetaLoader.
+        loader (str): Can be one of 'meta', 'data'.
+
+        **kwargs: Additional keyword arguments to be passed to PhenoLoader / MetaLoader.
     Returns:
-        DataLoader: A DataLoader object for the specified subset of the dataset.
+
+        DataLoader MetaLoader object: An object for the specified subset of the dataset.
     """
-    return PhenoLoader(dataset, subset_path[subset], **kwargs)
+    if subset not in subset_path.keys():
+        ValueError(f"Subset {subset} not found. Must be one of {subset_path.keys()}")
+    if loader == 'meta':
+        return MetaLoader(base_path=subset_path[subset], **kwargs)
+
+    return PhenoLoader(dataset, base_path=subset_path[subset], **kwargs)

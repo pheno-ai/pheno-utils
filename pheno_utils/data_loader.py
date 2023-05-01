@@ -287,7 +287,14 @@ class DataLoader:
                 warnings.warn(f'No date field found')
             return
 
-        ind &= align_df[date].notnull()
+        try:
+            ind &= align_df[date].notnull()
+        except Exception as e:
+            if self.errors == 'raise':
+                raise(e)
+            if self.errors == 'warn':
+                warnings.warn(f'Error checking date field: {e}')
+            return
         if not ind.any():
             return
 
