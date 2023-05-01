@@ -21,13 +21,14 @@ subset_path = {'train': '/home/ec2-user/studies/train_datasets',
 def load_subset(subset: str, dataset: str=None, loader: str='data', age_sex_dataset=None, **kwargs):
     """
     Wrapper for loading a train/test subset of a dataset.
+
     Args:
 
         subset (str): Can be one of 'train', 'test_01', 'test_02', 'test_final'.
         dataset (str): Name of the dataset to load. Not needed when requesting a MetaLoader.
         loader (str): Can be one of 'meta', 'data'.
-
         **kwargs: Additional keyword arguments to be passed to PhenoLoader / MetaLoader.
+
     Returns:
 
         DataLoader MetaLoader object: An object for the specified subset of the dataset.
