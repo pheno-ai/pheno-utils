@@ -10,6 +10,7 @@ website:
           - 05_data_loader.ipynb
           - 11_meta_loader.ipynb
           - 10_subset_loader.ipynb
+          - 12_cohort_selector.ipynb
       - section: "Plots"
         contents:
           - 01_basic_plots.ipynb
