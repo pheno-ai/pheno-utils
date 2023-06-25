@@ -13,7 +13,11 @@ from PIL import Image
 from smart_open import open
 
 # %% ../nbs/01_basic_plots.ipynb 4
-from .config import *
+from pheno_utils.config import (
+    FEMALE_COLOR, 
+    MALE_COLOR, 
+    generate_synthetic_data
+    )
 
 # %% ../nbs/01_basic_plots.ipynb 5
 def hist_ecdf_plots(data: pd.DataFrame, col: str, feature_str: Optional[str] = None,

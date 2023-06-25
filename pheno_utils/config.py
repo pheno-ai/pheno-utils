@@ -21,7 +21,7 @@ GLUC_COLOR = "C0"
 FOOD_COLOR = "C1"
 
 DATASETS_PATH = '/home/ec2-user/studies/hpp/'
-COHORT = '10k'
+COHORT = None
 POPULATION_DATASET = 'population'
 ERROR_ACTION = 'raise'
 CONFIG_FILES = ['.pheno/config', '~/.pheno/config', '/efs/.pheno/config']
@@ -38,7 +38,7 @@ for cf in CONFIG_FILES:
                 POPULATION_DATASET = line.split('=')[1].strip()
             elif line.startswith('COHORT'):
                 COHORT = line.split('=')[1].strip()
-                if (len(COHORT) == 0) or (COHORT == 'None'):
+                if (len(COHORT) == 0) or (COHORT == 'None') or (COHORT == None):
                     COHORT = None
             elif line.startswith('ERROR_ACTION'):
                 ERROR_ACTION = line.split('=')[1].strip()
