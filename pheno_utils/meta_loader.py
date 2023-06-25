@@ -14,7 +14,11 @@ import pandas as pd
 import dask.dataframe as dd
 
 # %% ../nbs/11_meta_loader.ipynb 4
-from .config import DATASETS_PATH, COHORT, ERROR_ACTION#, generate_synthetic_data, generate_synthetic_data_like
+from pheno_utils.config import (
+    DATASETS_PATH, 
+    COHORT, 
+    ERROR_ACTION
+    )
 from .pheno_loader import PhenoLoader
 
 # %% ../nbs/11_meta_loader.ipynb 5

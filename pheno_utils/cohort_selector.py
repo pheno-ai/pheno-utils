@@ -12,7 +12,11 @@ import numpy as np
 import pandas as pd
 
 # %% ../nbs/12_cohort_selector.ipynb 4
-from .config import *
+from pheno_utils.config import (
+    DATASETS_PATH, 
+    COHORT, 
+    ERROR_ACTION
+)
 from .meta_loader import MetaLoader
 
 # %% ../nbs/12_cohort_selector.ipynb 5
