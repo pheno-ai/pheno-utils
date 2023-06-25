@@ -6,7 +6,7 @@ from .basic_plots import *
 from .blandaltman_plots import *
 from .cgm_plots import *
 from .config import *
-from .data_loader import DataLoader as PhenoLoader
+from .pheno_loader import PhenoLoader
 from .dates_plots import *
 from .ecg_analysis import *
 from .sleep_plots import *

@@ -7,7 +7,7 @@ website:
       - index.ipynb
       - section: "Data Loaders"
         contents:
-          - 05_data_loader.ipynb
+          - 05_pheno_loader.ipynb
           - 11_meta_loader.ipynb
           - 10_subset_loader.ipynb
       - section: "Plots"
