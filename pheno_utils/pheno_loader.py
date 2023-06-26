@@ -146,7 +146,6 @@ class PhenoLoader:
         data = []
         for p in sample.unique():
             try:
-                print(p)
                 data.append(load_func(p, **kwargs))
                 if isinstance(data[-1], pd.DataFrame):
                     data[-1].sort_index(inplace=True)
@@ -359,8 +358,7 @@ class PhenoLoader:
         """
     
         df_path = os.path.join(self.dataset_path, relative_location)
-        # df_path = os.path.join(self.base_path, relative_location)
-
+        
         try:
             data =  pd.read_parquet(df_path)
         except Exception as err:
