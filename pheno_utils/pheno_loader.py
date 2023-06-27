@@ -90,7 +90,7 @@ class PhenoLoader:
         if self.age_sex_dataset is not None:
             self.__load_age_sex__()
 
-    def load_bulk_data(
+    def load_sample_data(
         self,
         field_name: str,
         participant_id: Union[int, List[int]],
