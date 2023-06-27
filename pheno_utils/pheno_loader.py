@@ -126,13 +126,15 @@ class PhenoLoader:
 
         sample = self[[field_name] + ['participant_id']].query(query_str)
         col = sample.columns[0]  # can be different from field_name is a parent_dataframe is implied
-        sample = sample.astype({col: str})
+        sample = sample.astype({col: str})  
         missing_participants = np.setdiff1d(participant_id, sample['participant_id'].unique())
 
-        if not 's3://' in sample.iloc[0, 0]:
-            sample = self.dataset_path + '/' + sample.iloc[:, 0]
+        if not 's3://' in sample.iloc[0][col]:
+            sample = self.dataset_path + '/' + sample[col]
+            # sample = self.dataset_path + '/' + sample.iloc[:, 0]
         else: 
-            sample = sample.iloc[:, 0]
+            sample = sample[col]
+            # sample = sample.iloc[:, 0]
 
         if len(missing_participants):
             if self.errors == 'raise':
@@ -241,8 +243,9 @@ class PhenoLoader:
                 raise KeyError(f'Fields not found: {not_found}')
             elif self.errors == 'warn':
                 warnings.warn(f'Fields not found: {not_found}')
-
-        return data
+        
+        cols_order = [field for field in fields if field in data.columns]
+        return data[cols_order]
 
     def __concat__(self, df1, df2):
         if df1.empty:
