@@ -2,12 +2,12 @@
 
 # %% auto 0
 __all__ = ['REF_COLOR', 'FEMALE_COLOR', 'MALE_COLOR', 'ALL_COLOR', 'GLUC_COLOR', 'FOOD_COLOR', 'DATASETS_PATH', 'COHORT',
-           'POPULATION_DATASET', 'ERROR_ACTION', 'CONFIG_FILES', 'generate_synthetic_data',
+           'EVENTS_DATASET', 'ERROR_ACTION', 'CONFIG_FILES', 'BULK_DATA_PATH', 'generate_synthetic_data',
            'generate_synthetic_data_like']
 
 # %% ../nbs/00_config.ipynb 3
 import os
-
+import json
 import numpy as np
 import pandas as pd
 
@@ -22,26 +22,31 @@ FOOD_COLOR = "C1"
 
 DATASETS_PATH = '/home/ec2-user/studies/hpp/'
 COHORT = None
-POPULATION_DATASET = 'population'
+EVENTS_DATASET = 'events'
 ERROR_ACTION = 'raise'
-CONFIG_FILES = ['.pheno/config', '~/.pheno/config', '/efs/.pheno/config']
+CONFIG_FILES = ['.pheno/config.json', '~/.pheno/config.json', '/efs/.pheno/config.json']
+BULK_DATA_PATH = {}
+
 
 for cf in CONFIG_FILES:
     cf = os.path.expanduser(cf)
     if not os.path.isfile(cf):
         continue
-    with open(cf, 'r') as f:
-        for line in f:
-            if line.startswith('DATASETS_PATH'):
-                DATASETS_PATH = line.split('=')[1].strip()
-            elif line.startswith('POPULATION_DATASET'):
-                POPULATION_DATASET = line.split('=')[1].strip()
-            elif line.startswith('COHORT'):
-                COHORT = line.split('=')[1].strip()
-                if (len(COHORT) == 0) or (COHORT == 'None') or (COHORT == None):
-                    COHORT = None
-            elif line.startswith('ERROR_ACTION'):
-                ERROR_ACTION = line.split('=')[1].strip()
+
+    f = open(cf)
+    config = json.load(f)
+    
+    if 'DATASETS_PATH' in config:
+        DATASETS_PATH = config['DATASETS_PATH']
+    if 'BULK_DATA_PATH' in config:
+        BULK_DATA_PATH = config['BULK_DATA_PATH']
+    if 'EVENTS_DATASET' in config:
+        EVENTS_DATASET = config['EVENTS_DATASET']
+    if 'COHORT' in config:
+        if config['COHORT'] == 0 or config['COHORT']=='None' or config['COHORT']==None :
+            COHORT = None
+    if 'ERROR_ACTION' in config:
+        ERROR_ACTION = config['ERROR_ACTION']
     break
 
 

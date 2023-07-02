@@ -15,9 +15,15 @@ import numpy as np
 import pandas as pd
 
 # %% ../nbs/05_pheno_loader.ipynb 4
-from .config import DATASETS_PATH, COHORT, POPULATION_DATASET, ERROR_ACTION#  generate_synthetic_data, generate_synthetic_data_like
-from .basic_analysis import custom_describe#, assign_nearest_research_stage, 
-from .basic_plots import show_fundus#, hist_ecdf_plots
+from pheno_utils.config import (
+    DATASETS_PATH,
+    COHORT, 
+    EVENTS_DATASET, 
+    ERROR_ACTION, 
+    BULK_DATA_PATH
+    )
+from .basic_analysis import custom_describe
+from .basic_plots import show_fundus
 
 # %% ../nbs/05_pheno_loader.ipynb 5
 class PhenoLoader:
@@ -30,7 +36,7 @@ class PhenoLoader:
         dataset (str): The name of the dataset to load.
         base_path (str, optional): The base path where the data is stored. Defaults to DATASETS_PATH.
         cohort (str, optional): The name of the cohort within the dataset. Defaults to COHORT.
-        age_sex_dataset (str, optional): The name of the dataset to use for computing age and sex. Defaults to POPULATION_DATASET.
+        age_sex_dataset (str, optional): The name of the dataset to use for computing age and sex. Defaults to EVENTS_DATASET.
         skip_dfs (list, optional): A list of tables (or substrings that match to tables) to skip when loading the data. Defaults to [].
         unique_index (bool, optional): Whether to ensure the index of the data is unique. Defaults to False.
         valid_dates (bool, optional): Whether to ensure that all timestamps in the data are valid dates. Defaults to False.
@@ -62,7 +68,7 @@ class PhenoLoader:
         dataset: str,
         base_path: str = DATASETS_PATH,
         cohort: str = COHORT,
-        age_sex_dataset: str = POPULATION_DATASET,
+        age_sex_dataset: str = EVENTS_DATASET,
         skip_dfs: List[str] = [],
         unique_index: bool = False,
         valid_dates: bool = False,
@@ -74,7 +80,7 @@ class PhenoLoader:
         self.cohort = cohort
         self.base_path = base_path
         self.dataset_path = self.__get_dataset_path__(self.dataset)
-        if self.dataset != age_sex_dataset:
+        if self.dataset not in [age_sex_dataset, 'population']:
             self.age_sex_dataset = age_sex_dataset
         else:
             self.age_sex_dataset = None
@@ -128,13 +134,8 @@ class PhenoLoader:
         col = sample.columns[0]  # can be different from field_name is a parent_dataframe is implied
         sample = sample.astype({col: str})  
         missing_participants = np.setdiff1d(participant_id, sample['participant_id'].unique())
-
-        if not 's3://' in sample.iloc[0][col]:
-            sample = self.dataset_path + '/' + sample[col]
-            # sample = self.dataset_path + '/' + sample.iloc[:, 0]
-        else: 
-            sample = sample[col]
-            # sample = sample.iloc[:, 0]
+        sample = sample.loc[:, col]
+        
 
         if len(missing_participants):
             if self.errors == 'raise':
@@ -217,12 +218,14 @@ class PhenoLoader:
         # check whether any field points to a parent_dataframe
         has_parent = self.dict.loc[self.dict.index.isin(fields), 'parent_dataframe'].dropna()
         fields += has_parent.unique().tolist()
+        flexi_fields = list()
 
         data = pd.DataFrame()
         for df in self.dfs.values():
             if flexible:
                 # use fuzzy matching including regex to find fields
                 fields_in_col = np.unique([col for f in fields for col in df.columns if re.search(f, col)])
+                flexi_fields += fields_in_col.tolist()
             else:
                 fields_in_col = df.columns.intersection(fields).difference(data.columns)
             if len(fields_in_col):
@@ -244,8 +247,23 @@ class PhenoLoader:
             elif self.errors == 'warn':
                 warnings.warn(f'Fields not found: {not_found}')
         
+        data = self.replace_bulk_data_path(data, fields)
+        
         cols_order = [field for field in fields if field in data.columns]
+        cols_order += [field for field in flexi_fields if (field in data.columns and field not in fields)]
+        
         return data[cols_order]
+    
+
+    def replace_bulk_data_path(self, data, fields):
+        bulk_fields = self.dict.loc[self.dict.index.isin(fields)].query('item_type == "Bulk"')
+        cols = [col for col in bulk_fields.index.to_list() if col in data.columns] 
+
+        dataset_bulk_data_path = {k:v.format(dataset=self.dataset) for k, v in BULK_DATA_PATH.items()}
+        data[cols] = data[cols].replace(dataset_bulk_data_path, regex=True)
+        return data
+
+
 
     def __concat__(self, df1, df2):
         if df1.empty:
@@ -457,7 +475,7 @@ class PhenoLoader:
         """
         if isinstance(fields, str):
             fields = [fields]
-            
+        
         summary_df = pd.concat([self.dict.loc[fields,:].T,
                                 custom_describe(self[fields])])
         display(summary_df)

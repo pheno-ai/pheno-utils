@@ -12,7 +12,7 @@ from typing import List, Any, Dict, Union, Optional
 
 
 # %% ../nbs/07_basic_analysis.ipynb 5
-from .config import *
+from .config import generate_synthetic_data
 
 # %% ../nbs/07_basic_analysis.ipynb 6
 def custom_describe(df: pd.DataFrame) -> pd.DataFrame:

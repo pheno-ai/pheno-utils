@@ -1,0 +1,7 @@
+{
+"DATASETS_PATH": "examples/", 
+"BULK_DATA_PATH": {},
+"POPULATION_DATASET": "population",
+"COHORT": "None",
+"ERROR_ACTION": "warn"
+}
