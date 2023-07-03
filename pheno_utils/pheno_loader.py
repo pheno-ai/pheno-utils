@@ -216,8 +216,12 @@ class PhenoLoader:
             fields = [fields]
 
         # check whether any field points to a parent_dataframe
-        has_parent = self.dict.loc[self.dict.index.isin(fields), 'parent_dataframe'].dropna()
-        fields += has_parent.unique().tolist()
+        # has_parent = self.dict.loc[self.dict.index.isin(fields), 'parent_dataframe'].dropna()
+        seen_fields = set()
+        parent_dict = self.dict.loc[self.dict.index.isin(fields), 'parent_dataframe'].dropna().to_dict()
+        fields = [parent_dict.get(field, field) for field in fields]
+        fields = [field for field in fields if field not in seen_fields and not seen_fields.add(field)]
+        # fields += has_parent.unique().tolist()
         flexi_fields = list()
 
         data = pd.DataFrame()
@@ -251,7 +255,7 @@ class PhenoLoader:
         
         cols_order = [field for field in fields if field in data.columns]
         cols_order += [field for field in flexi_fields if (field in data.columns and field not in fields)]
-        
+
         return data[cols_order]
     
 
