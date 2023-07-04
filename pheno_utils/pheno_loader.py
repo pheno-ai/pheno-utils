@@ -262,9 +262,16 @@ class PhenoLoader:
     def replace_bulk_data_path(self, data, fields):
         bulk_fields = self.dict.loc[self.dict.index.isin(fields)].query('item_type == "Bulk"')
         cols = [col for col in bulk_fields.index.to_list() if col in data.columns] 
-
         dataset_bulk_data_path = {k:v.format(dataset=self.dataset) for k, v in BULK_DATA_PATH.items()}
+        category_cols = self.dict.loc[self.dict.index.isin(fields)].query('pandas_dtype == "category"').index
+    
+        for col in category_cols: 
+            data[col] = data[col].astype(str)
+
         data[cols] = data[cols].replace(dataset_bulk_data_path, regex=True)
+        for col in category_cols: 
+            data[col] = data[col].astype('category')
+            
         return data
 
 
