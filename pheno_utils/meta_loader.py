@@ -57,6 +57,7 @@ class MetaLoader:
         self.cohort = cohort
         self.base_path = base_path
         self.dataset_path = self.__get_dataset_path__()
+        
         self.flexible_field_search = flexible_field_search
         self.errors = errors
         self.kwargs = kwargs
@@ -76,6 +77,7 @@ class MetaLoader:
             pd.DataFrame: Dataframe containing the fields from the respective datasets.
         """
         found_fields = self.get(fields, flexible, prop)
+        
         found_fields.columns = found_fields.columns.str.split('/').str[1]
         dup_fields = found_fields.columns.value_counts()\
             .to_frame('count').query('count > 1').index

@@ -92,6 +92,7 @@ class CohortSelector:
             raise ValueError('No column names found in query')
 
         test_cols = self.ml.get(column_names)
+        
         missing_cols = [col for col in column_names
                         if col not in test_cols.columns.str.split('/').str[1]]
         if len(missing_cols):
