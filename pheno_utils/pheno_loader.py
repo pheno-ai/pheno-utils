@@ -365,17 +365,20 @@ class PhenoLoader:
         self.dfs = {}
         self.fields = set()
         for relative_location in self.dict['relative_location'].dropna().unique():
-            parquet_name = relative_location.split(os.sep)[-1]
+            # parquet_name = relative_location.split(os.sep)[-1]
+            parquet_name = os.sep.join(relative_location.split(os.sep)[2:])
+            
             if any([pattern in relative_location for pattern in self.skip_dfs]):
                 print(f'Skipping {relative_location}')
                 continue
             df = self.__load_one_dataframe__(parquet_name)
             if df is None:
                 continue
-            self.dfs[parquet_name.split('.')[0]] = df
+            table_name = parquet_name.split('.')[0].split(os.sep)[-1]
+            self.dfs[table_name] = df
             if not df.index.is_unique:
                 print('Warning: index is not unique for', parquet_name)
-            self.fields |= set(self.dfs[parquet_name.split('.')[0]].columns.tolist())
+            self.fields |= set(self.dfs[table_name].columns.tolist())
         self.fields = sorted(list(self.fields))
 
     def __load_one_dataframe__(self, relative_location: str) -> pd.DataFrame:
