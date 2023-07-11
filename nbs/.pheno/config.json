@@ -1,6 +1,8 @@
 {
 "DATASETS_PATH": "examples/", 
-"BULK_DATA_PATH": {},
+"BULK_DATA_PATH": {
+    "M0":"/home/jovyan/projects/pheno-utils_new/nbs/examples/fundus/M0"
+},
 "POPULATION_DATASET": "population",
 "COHORT": "None",
 "ERROR_ACTION": "warn"

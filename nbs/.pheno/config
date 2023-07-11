@@ -1,4 +1,0 @@
-DATASETS_PATH=examples/
-POPULATION_DATASET=population
-COHORT=None
-ERROR_ACTION=warn
