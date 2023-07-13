@@ -268,7 +268,7 @@ class PhenoLoader:
         for col in category_cols: 
             data[col] = data[col].astype(str)
 
-        data[cols] = data[cols].replace(dataset_bulk_data_path, regex=True)
+        data[cols] = data[cols].fillna('nan').replace(dataset_bulk_data_path, regex=True)
         for col in category_cols: 
             data[col] = data[col].astype('category')
             
