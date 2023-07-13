@@ -24,7 +24,8 @@ from pyCompare import blandAltman
 
 # %% ../nbs/02_blandaltman_plots.ipynb 5
 def bland_altman_triple_plot(
-    data: pd.DataFrame, m1_col: str, m2_col: str, feature_str: str = ""
+    data: pd.DataFrame, m1_col: str, m2_col: str, feature_str: str = "",
+    scale: str = "linear",
 ) -> None:
     """
     Generates a triple plot consisting of a scatter correlation plot, Bland-Altman plot, and a percentage Bland-Altman plot.
@@ -34,6 +35,7 @@ def bland_altman_triple_plot(
         m1_col (str): The name of the first measurement column in the DataFrame.
         m2_col (str): The name of the second measurement column in the DataFrame.
         feature_str (str, optional): A string to include in the title of the plots. Defaults to "".
+        scale (str, optional): The scale of the axes. Defaults to "linear".
 
     Returns:
         None
@@ -66,8 +68,11 @@ def bland_altman_triple_plot(
     blandAltman(m1, m2, ax=ax)
     ax.set_xlabel(f"Mean of {m1.name} and {m2.name}")
     ax.set_ylabel(f"{m1.name} - {m2.name}")
+    ax.set_xscale(scale)
 
     ax = axes[2]
     blandAltman(m1, m2, ax=ax, percentage=True)
     ax.set_xlabel(f"Mean of {m1.name} and {m2.name}")
     ax.set_ylabel(f"Percentage ({m1.name} - {m2.name})")
+    ax.set_xscale(scale)
+
