@@ -3,7 +3,7 @@ project:
 
 website:
   title: "pheno-utils"
-  site-url: "https://hrossman.github.io/pheno-utils"
+  site-url: "https://pheno-ai.github.io/pheno-utils"
   description: "Pheno data utils - viz, loaders, mergers"
   repo-branch: main
-  repo-url: "https://github.com/hrossman/pheno-utils"
+  repo-url: "https://github.com/pheno-ai/pheno-utils"
