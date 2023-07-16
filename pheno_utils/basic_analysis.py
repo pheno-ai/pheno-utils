@@ -9,7 +9,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from typing import List, Any, Dict, Union, Optional
+import importlib
 
+# %% ../nbs/07_basic_analysis.ipynb 4
+try:
+    importlib.import_module("smart_open")
+except:
+    print("smart_open not installed, please pip install smart-open")
+
+from smart_open import open
 
 # %% ../nbs/07_basic_analysis.ipynb 5
 from .config import generate_synthetic_data
