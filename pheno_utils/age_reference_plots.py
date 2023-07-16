@@ -39,7 +39,7 @@ def get_gam_expectiles(X: ndarray, y: ndarray, expectiles: List[float] = [0.03, 
     """
 
     # Fit the median model first by Cross-Validation
-    gam50 = ExpectileGAM(expectile=0.5).gridsearch(X, y)
+    gam50 = ExpectileGAM(expectile=0.5).gridsearch(X, y, progress=False)
 
     # Copy the smoothing to the other models
     lam = gam50.lam
