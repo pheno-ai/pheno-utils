@@ -282,6 +282,7 @@ class AgeRefPlot:
             transform=self.ax_main.transAxes,
             # font="Roboto Condensed",
         )
+
     def plot(self):
         ax = self.ax_main
         ax.spines["right"].set_visible(False)

@@ -352,10 +352,10 @@ class PhenoLoader:
 
         except Exception as e:
             if self.errors == 'raise':
+                print("Exception occurred:\n", traceback.format_exc())
                 raise(e)
             elif self.errors == 'warn':
                 warnings.warn(f'Error joining on {date}: {e}')
-                print("Exception occurred:\n", traceback.format_exc())
 
             age_sex = age_sex.join(age_df[['sex']], rsuffix='_miss').assign(age_miss=np.nan)
 
