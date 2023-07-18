@@ -285,7 +285,7 @@ def plot_channels(channels: pd.DataFrame, array_index: Optional[int]=None,
         ax[-1,0].set_xlabel('Time')
         ax[-1,0].set_xlim(data[time_col].min(), data[time_col].max())
         format_xticks(ax[-1,0])
-    plt.tight_layout()
+
 
     return ax
 
