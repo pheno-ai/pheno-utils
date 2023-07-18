@@ -282,11 +282,29 @@ class AgeRefPlot:
             transform=self.ax_main.transAxes,
             # font="Roboto Condensed",
         )
-
     def plot(self):
         ax = self.ax_main
         ax.spines["right"].set_visible(False)
         ax.spines["top"].set_visible(False)
+
+        ax = self.ax_agehist
+        self.ax_main.sharex(self.ax_agehist)
+        ax.set_yticks([])
+        ax.spines["right"].set_visible(False)
+        ax.spines["left"].set_visible(False)
+        ax.spines["top"].set_visible(False)
+        ax.tick_params(labelbottom=False) # hides x-tick labels
+
+        ax = self.ax_valhist
+        self.ax_main.sharey(self.ax_valhist)
+        ax.set_xticks([])
+        ax.spines["right"].set_visible(False)
+        ax.spines["bottom"].set_visible(False)
+        ax.spines["top"].set_visible(False)
+        ax.tick_params(labelleft=False) # hides y-tick labels
+
+
+        ax = self.ax_main
         ax.set_xlabel("Age")
         xticks = (np.sort(np.unique(np.floor(self.age_bins / 10) * 10))).astype(int)
         xticks = np.append(xticks, xticks[-1] + 10)
@@ -295,25 +313,12 @@ class AgeRefPlot:
         ax.set_xlim(xticks[0], xticks[-1] + 1)
         ax.set_ylabel(self.val_col)
 
-        ax = self.ax_agehist
-        self.ax_main.get_shared_x_axes().join(self.ax_main, self.ax_agehist)
-        ax.set_xticklabels([]), ax.set_yticks([])
-        ax.spines["right"].set_visible(False)
-        ax.spines["left"].set_visible(False)
-        ax.spines["top"].set_visible(False)
-
-        ax = self.ax_valhist
-        self.ax_main.get_shared_y_axes().join(self.ax_main, self.ax_valhist)
-        ax.set_yticklabels([]), ax.set_xticks([])
-        ax.spines["right"].set_visible(False)
-        ax.spines["bottom"].set_visible(False)
-        ax.spines["top"].set_visible(False)
-        
         self.plot_scatter()
         self.plot_percentiles()
         self.plot_ornaments()
         self.plot_agehist()
         self.plot_valhist()
+
 
 # %% ../nbs/03_age_reference_plots.ipynb 8
 class GenderAgeRefPlot(AgeRefPlot):

@@ -5,6 +5,8 @@ __all__ = ['PhenoLoader']
 
 # %% ../nbs/05_pheno_loader.ipynb 3
 from glob import glob
+import traceback
+
 import os
 import re
 from typing import List, Any, Dict, Union
@@ -342,8 +344,9 @@ class PhenoLoader:
         try:
             age_df['birth_date'] = pd.to_datetime(
                 age_df['year_of_birth'].astype(str) + '-' + age_df['month_of_birth'].astype(str))
+
             missing_age_sex = align_df.loc[ind, [date]].join(age_df[['sex', 'birth_date']])\
-                .assign(age=lambda x: ((x[date].dt.date - x['birth_date'].dt.date).dt.days / 365.25).round(1))\
+                .assign(age=lambda x: ((x[date] - x['birth_date']).dt.days / 365.25).round(1))\
                 [['age', 'sex']]
             age_sex = age_sex.join(missing_age_sex, rsuffix='_miss')
 
@@ -352,6 +355,8 @@ class PhenoLoader:
                 raise(e)
             elif self.errors == 'warn':
                 warnings.warn(f'Error joining on {date}: {e}')
+                print("Exception occurred:\n", traceback.format_exc())
+
             age_sex = age_sex.join(age_df[['sex']], rsuffix='_miss').assign(age_miss=np.nan)
 
         age_sex['age'] = age_sex['age'].fillna(age_sex['age_miss'])
