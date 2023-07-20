@@ -77,6 +77,7 @@ class PhenoLoader:
         valid_stage: bool = False,
         flexible_field_search: bool = False,
         errors: str = ERROR_ACTION,
+        read_parquet_kwargs: Dict[str, Any] = {}
     ) -> None:
         self.dataset = dataset
         self.cohort = cohort
@@ -92,6 +93,7 @@ class PhenoLoader:
         self.valid_stage = valid_stage
         self.flexible_field_search = flexible_field_search
         self.errors = errors
+        self.read_parquet_kwargs = read_parquet_kwargs
 
         self.__load_dictionary__()
         self.__load_dataframes__()
@@ -116,7 +118,7 @@ class PhenoLoader:
             participant_id (str or list): The participant ID or IDs to load data for.
             research_stage (str or list, optional): The research stage or stages to load data for.
             array_index (int or list, optional): The array index or indices to load data for.
-            load_func (callable, optional): The function to use to load the data. Defaults to pd.read
+            load_func (callable, optional): The function to use to load the data. Defaults to pd.read_parquet
             concat (bool, optional): Whether to concatenate the data into a single DataFrame. Automatically ignored if data is not a DataFrame. Defaults to True.
             pivot (str, optional): The name of the field to pivot the data on (if DataFrame). Defaults to None.
         """
@@ -400,7 +402,7 @@ class PhenoLoader:
         df_path = os.path.join(self.dataset_path, relative_location)
         
         try:
-            data =  pd.read_parquet(df_path)
+            data =  pd.read_parquet(df_path, **self.read_parquet_kwargs)
         except Exception as err:
             if self.errors == 'raise':
                 warnings.warn(f'Error loading {df_path}:\n{err}')
