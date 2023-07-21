@@ -258,11 +258,13 @@ def plot_data_collection(data: pd.DataFrame, date_col: str = "collection_date", 
     if ax is None:
         _, ax = plt.subplots(1, 1, figsize=(6, 3))
 
-    # Plot histogram
-    n, bins, patches = ax.hist(data[date_col], density=False, histtype='step', cumulative=True, lw=3, alpha=0.8)
+    df = data.sort_values(date_col).dropna()
 
-    # Exclude last point from histogram
-    patches[0].set_xy(patches[0].get_xy()[:-1])
+    # Calculate cumulative count of rows
+    df['cumulative_count'] = range(1, len(df) + 1)
+
+    # Plot cumulative count over time
+    ax.plot(df[date_col], df['cumulative_count'], lw=3, alpha=0.8)
 
     # Rotate x-axis tick labels by 90 degrees
     plt.xticks(rotation=90)
