@@ -63,6 +63,7 @@ class PhenoLoader:
         valid_stage (bool): Whether to ensure that all research stages in the data are valid.
         flexible_field_search (bool): Whether to allow regex field search.
         errors (str): Whether to raise an error or issue a warning if missing data is encountered.
+        read_parquet_kwargs (dict): Keyword arguments to pass to pd.read_parquet
     """
 
     def __init__(
