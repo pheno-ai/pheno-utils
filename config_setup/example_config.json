@@ -1,0 +1,10 @@
+{
+    "DATASETS_PATH": "/path/to/datasets", 
+    "EVENTS_DATASET": "events",
+    "COHORT": "None",
+    "ERROR_ACTION": "warn",
+    "BULK_DATA_PATH": {
+        "s3://bulk_bucket_example/bulk_data/": "/path/to/bulk/data/", 
+        "\\./": "/path/to/dataset"
+}
+}

@@ -1,7 +1,23 @@
 from pkg_resources import parse_version
 from configparser import ConfigParser
+import json, os
+import shutil
 import setuptools, shlex
 assert parse_version(setuptools.__version__)>=parse_version('36.2')
+
+
+def copy_tre_config():
+    with open('config_setup/config_tre.json', 'r') as openfile:
+        json_object = json.load(openfile)
+    datasets_full_path = os.path.expanduser(json_object['DATASETS_PATH'])
+    if os.path.exists(datasets_full_path):
+        # TRE MODE
+        if not os.path.exists(os.path.expanduser('~/.pheno')):
+            os.makedirs(os.path.expanduser('~/.pheno'))
+        shutil.copy2('config_setup/config_tre.json', os.path.expanduser('~/.pheno/config.json'))
+
+        
+copy_tre_config()     
 
 # note: all settings are in settings.ini; edit there, not here
 config = ConfigParser(delimiters=['='])

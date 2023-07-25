@@ -1,0 +1,12 @@
+{
+"DATASETS_PATH": "/home/ec2-user/studies/hpp_datasets/", 
+"EVENTS_DATASET": "events",
+"COHORT": "None",
+"ERROR_ACTION": "warn",
+"BULK_DATA_PATH": {
+    "s3://.*/fundus/10k/": "/home/ec2-user/studies/fundus_bulk/", 
+    "s3://.*/human_genetics/10k/": "/home/ec2-user/studies/human_genetics_bulk/", 
+    "s3://.*/gut_microbiome/10k/": "/home/ec2-user/studies/gut_microbiome_bulk/", 
+    "\\./": "/home/ec2-user/studies/hpp_datasets/{dataset}/"
+}
+}

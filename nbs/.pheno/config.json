@@ -3,7 +3,7 @@
 "BULK_DATA_PATH": {
     "M0":"/home/jovyan/projects/pheno-utils/nbs/examples/fundus/M0"
 },
-"POPULATION_DATASET": "population",
+"EVENTS_DATASET": "events",
 "COHORT": "None",
 "ERROR_ACTION": "warn"
 }
