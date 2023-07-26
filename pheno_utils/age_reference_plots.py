@@ -4,7 +4,14 @@
 __all__ = ['get_gam_expectiles', 'AgeRefPlot', 'GenderAgeRefPlot']
 
 # %% ../nbs/03_age_reference_plots.ipynb 3
-from .config import *
+from pheno_utils.config import (
+    generate_synthetic_data, 
+    FEMALE_COLOR,
+    MALE_COLOR,
+    ALL_COLOR, 
+    REF_COLOR,
+    ERROR_ACTION, 
+    )
 
 from typing import Dict, List, Callable, Optional, Union, Tuple
 import numpy as np

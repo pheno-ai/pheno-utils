@@ -2,8 +2,8 @@
 
 # %% auto 0
 __all__ = ['REF_COLOR', 'FEMALE_COLOR', 'MALE_COLOR', 'ALL_COLOR', 'GLUC_COLOR', 'FOOD_COLOR', 'DATASETS_PATH', 'COHORT',
-           'EVENTS_DATASET', 'ERROR_ACTION', 'CONFIG_FILES', 'BULK_DATA_PATH', 'generate_synthetic_data',
-           'generate_synthetic_data_like']
+           'EVENTS_DATASET', 'ERROR_ACTION', 'CONFIG_FILES', 'BULK_DATA_PATH', 'config_found', 'copy_tre_config',
+           'generate_synthetic_data', 'generate_synthetic_data_like']
 
 # %% ../nbs/00_config.ipynb 3
 import os
@@ -27,12 +27,39 @@ ERROR_ACTION = 'raise'
 CONFIG_FILES = ['.pheno/config.json', '~/.pheno/config.json', '/efs/.pheno/config.json']
 BULK_DATA_PATH = {}
 
+config_found = False
 
+
+
+# %% ../nbs/00_config.ipynb 5
+def copy_tre_config():
+    tre_mode = False
+    script_path = os.path.dirname(os.path.abspath(__file__))
+    absolute_config_path = os.path.join(script_path, '../config_setup/config_tre.json')
+    
+    with open(absolute_config_path, 'r') as openfile:
+        json_object = json.load(openfile)
+                
+    datasets_full_path = json_object['DATASETS_PATH']
+    if os.path.exists(datasets_full_path):
+        print("TRE Mode")
+        tre_mode = True
+        if not os.path.exists(os.path.expanduser('~/.pheno')):
+            os.makedirs(os.path.expanduser('~/.pheno'))
+        
+        shutil.copy2(absolute_config_path, os.path.expanduser('~/.pheno/config.json'))
+    
+    return tre_mode
+
+
+# %% ../nbs/00_config.ipynb 6
 for cf in CONFIG_FILES:
     cf = os.path.expanduser(cf)
     if not os.path.isfile(cf):
         continue
-
+    
+    config_found=True
+    
     f = open(cf)
     config = json.load(f)
     
@@ -49,8 +76,14 @@ for cf in CONFIG_FILES:
         ERROR_ACTION = config['ERROR_ACTION']
     break
 
+if not config_found: 
+    if not copy_tre_config():
+        raise ValueError(f'Missing Config file, please read the README file and run config_setup/create_default_config.py')
+        
+    
+    
 
-# %% ../nbs/00_config.ipynb 5
+# %% ../nbs/00_config.ipynb 7
 def generate_synthetic_data(n: int = 1000) -> pd.DataFrame:
     """
     Generates a sample DataFrame containing age, gender, and value data.
@@ -74,7 +107,7 @@ def generate_synthetic_data(n: int = 1000) -> pd.DataFrame:
     data["val2"] = data["val1"]*0.3 + 0.5*np.random.normal(0,50) + 0.2*10*data["sex"]
     return data
 
-# %% ../nbs/00_config.ipynb 6
+# %% ../nbs/00_config.ipynb 8
 def generate_synthetic_data_like(df: pd.DataFrame, n: int = 1000, random_seed: int = 42) -> pd.DataFrame:
     """
     Generate a sample DataFrame containing the same columns as `df`, but with random data.
