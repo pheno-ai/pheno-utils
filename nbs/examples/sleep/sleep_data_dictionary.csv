@@ -1,3 +1,3 @@
 tabular_field_name,field_string,description_string,parent_dataframe,relative_location,value_type,units,sampling_rate,item_type,array,cohorts,data_type,debut,pandas_dtype
-ahi,AHI,AHI (Apnea-Hypopnea Index),,/sleep/sleep.parquet,Continuous,Events / Hour,,Data,Multiple,10K,Tabular,2020-01-15,float64
-total_sleep_time,Total sleep time,Total sleep time,,/sleep/sleep.parquet,Integer,Seconds,,Data,Multiple,10K,Tabular,2020-01-15,float64
+ahi,AHI,AHI (Apnea-Hypopnea Index),,sleep/sleep.parquet,Continuous,Events / Hour,,Data,Multiple,10K,Tabular,2020-01-15,float64
+total_sleep_time,Total sleep time,Total sleep time,,sleep/sleep.parquet,Integer,Seconds,,Data,Multiple,10K,Tabular,2020-01-15,float64

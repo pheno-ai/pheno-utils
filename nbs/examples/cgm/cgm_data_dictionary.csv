@@ -1,62 +1,62 @@
 tabular_field_name,field_string,description_string,parent_dataframe,relative_location,value_type,units,sampling_rate,item_type,array,cohorts,data_type,debut,pandas_dtype
-connection_id,ConnectionID,CGM device connection id,,/cgm/cgm.parquet,Text,Text,,Data,Single,10K,tabular,2018-12-27,int
-cgm_filename,CGM timeseries,Name of the file containing the participants' CGM timeseries,,/cgm/cgm.parquet,Text,,,Bulk,Single,10K,text,2018-12-27,string
-glucose,Glucose,cgm temporal glucose values,,/cgm/cgm.parquet,"Series data, continous",mg/dl,15min,Data,Single,10K,time series,2018-12-27,float
-collection_timestamp,Collection timestamp,CGM connection first data point timestamp,,/cgm/cgm.parquet,Time,Time,,Data,Single,10K,tabular,2018-12-27,"datetime64[ns, Asia/Jerusalem]"
-cgm_first_date,CGM first date,CGM connection first date,,/cgm/cgm.parquet,Time,Time,,Data,Single,10K,tabular,2018-12-27,"datetime64[ns, Asia/Jerusalem]"
-cgm_last_date,CGM last date,CGM connection last date,,/cgm/cgm.parquet,Time,Time,,Data,Single,10K,tabular,2018-12-27,"datetime64[ns, Asia/Jerusalem]"
-cgm_device_type,CGM Device type,CGM Device type,,/cgm/cgm.parquet,Categorical (multiple),Text,,Data,Single,10K,tabular,2018-12-27,string
-cgm_datapoints_lost_in_qc,CGM datapoints lost in QC,Number of CGM datapoints lost in QC,,/cgm/cgm.parquet,Integer,integer,,Data,Single,10K,tabular,2018-12-27,int
-percentage_of_cgm_datapoints_lost_in_qc,,,,/cgm/cgm.parquet,,,,,,,,,float
-number_of_cgm_days_available,Number of CGM days available,Number of CGM days available for the connection,,/cgm/cgm.parquet,Integer,integer,,Data,Single,10K,tabular,2018-12-27,int
-number_of_cgm_datapoints_available,Number of CGM datapoints available,Number of CGM datapoints available for the connection,,/cgm/cgm.parquet,Integer,integer,,Data,Single,10K,tabular,2018-12-27,int
-timezone,Timezone,TImezone of measurement,,/cgm/cgm.parquet,,,,,,,,,"datetime64[ns, Asia/Jerusalem]"
-1st qu_,1st quantile,First quantile of all glucose values.,,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-3rd qu_,3rd quantile,Third quantile of all glucose values.,,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-above_140,% above 140,Percent of glucose measures that were larger than 140,,/cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
-above_180,% above 180,Percent of glucose measures that were larger than 180,,/cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
-above_250,% above 250,Percent of glucose measures that were larger than 250,,/cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
-below_54,% below 54,Percent of glucose measures that were lower than 54,,/cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
-below_70,% below 70,Percent of glucose measures that were lower than 70,,/cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
-in_range_63_140,% in range 63-140,Percent of glucose measures that were in a specified range of glucose values (63-140),,/cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
-in_range_70_180,% in range 70-180,Percent of glucose measures that were in a specified range of glucose values (70-180),,/cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
-adrr,ADRR,Average daily risk range (ADRR) is a variability measure that was designed to be sensitive to both hyperglycemia and hypoglycemia. The ADRR is composed of the HBGI and LGBI.,,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-auc,AUC,"Hourly average AUC. This measure integrates, to some extent, the severity of a high or low glucose along with the duration of the abnormality. It’s calculated for each hour in the CGM, then averaged for each day over a 24-hour period, then once again averaged between all days to receive a single AUC measure.",,/cgm/cgm.parquet,Continuous,mg/dl*h,,Data,Single,10K,tabular,2018-12-27,float
-cogi,COGI,"Continuous Glucose Monitoring Index (COGI). COGI uses three measures of the CGM - time in range, time below range and glucose variability (GV) and averages them using a weighted mean, usually with weights of 50%, 35% and 15% accordingly.",,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-conga,Conga,"Continuous Overall Net Glycemic Action (CONGA). This measure assesses intra-day glycemic variability, by calculating the standard deviation of differences in glucose measures taken n hours apart.",,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+connection_id,ConnectionID,CGM device connection id,,cgm/cgm.parquet,Text,Text,,Data,Single,10K,tabular,2018-12-27,int
+cgm_filename,CGM timeseries,Name of the file containing the participants' CGM timeseries,,cgm/cgm.parquet,Text,,,Bulk,Single,10K,text,2018-12-27,string
+glucose,Glucose,cgm temporal glucose values,,cgm/cgm.parquet,"Series data, continous",mg/dl,15min,Data,Single,10K,time series,2018-12-27,float
+collection_timestamp,Collection timestamp,CGM connection first data point timestamp,,cgm/cgm.parquet,Time,Time,,Data,Single,10K,tabular,2018-12-27,"datetime64[ns, Asia/Jerusalem]"
+cgm_first_date,CGM first date,CGM connection first date,,cgm/cgm.parquet,Time,Time,,Data,Single,10K,tabular,2018-12-27,"datetime64[ns, Asia/Jerusalem]"
+cgm_last_date,CGM last date,CGM connection last date,,cgm/cgm.parquet,Time,Time,,Data,Single,10K,tabular,2018-12-27,"datetime64[ns, Asia/Jerusalem]"
+cgm_device_type,CGM Device type,CGM Device type,,cgm/cgm.parquet,Categorical (multiple),Text,,Data,Single,10K,tabular,2018-12-27,string
+cgm_datapoints_lost_in_qc,CGM datapoints lost in QC,Number of CGM datapoints lost in QC,,cgm/cgm.parquet,Integer,integer,,Data,Single,10K,tabular,2018-12-27,int
+percentage_of_cgm_datapoints_lost_in_qc,,,,cgm/cgm.parquet,,,,,,,,,float
+number_of_cgm_days_available,Number of CGM days available,Number of CGM days available for the connection,,cgm/cgm.parquet,Integer,integer,,Data,Single,10K,tabular,2018-12-27,int
+number_of_cgm_datapoints_available,Number of CGM datapoints available,Number of CGM datapoints available for the connection,,cgm/cgm.parquet,Integer,integer,,Data,Single,10K,tabular,2018-12-27,int
+timezone,Timezone,TImezone of measurement,,cgm/cgm.parquet,,,,,,,,,"datetime64[ns, Asia/Jerusalem]"
+1st qu_,1st quantile,First quantile of all glucose values.,,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+3rd qu_,3rd quantile,Third quantile of all glucose values.,,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+above_140,% above 140,Percent of glucose measures that were larger than 140,,cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
+above_180,% above 180,Percent of glucose measures that were larger than 180,,cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
+above_250,% above 250,Percent of glucose measures that were larger than 250,,cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
+below_54,% below 54,Percent of glucose measures that were lower than 54,,cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
+below_70,% below 70,Percent of glucose measures that were lower than 70,,cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
+in_range_63_140,% in range 63-140,Percent of glucose measures that were in a specified range of glucose values (63-140),,cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
+in_range_70_180,% in range 70-180,Percent of glucose measures that were in a specified range of glucose values (70-180),,cgm/cgm.parquet,Continuous,%,,Data,Single,10K,tabular,2018-12-27,float
+adrr,ADRR,Average daily risk range (ADRR) is a variability measure that was designed to be sensitive to both hyperglycemia and hypoglycemia. The ADRR is composed of the HBGI and LGBI.,,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+auc,AUC,"Hourly average AUC. This measure integrates, to some extent, the severity of a high or low glucose along with the duration of the abnormality. It’s calculated for each hour in the CGM, then averaged for each day over a 24-hour period, then once again averaged between all days to receive a single AUC measure.",,cgm/cgm.parquet,Continuous,mg/dl*h,,Data,Single,10K,tabular,2018-12-27,float
+cogi,COGI,"Continuous Glucose Monitoring Index (COGI). COGI uses three measures of the CGM - time in range, time below range and glucose variability (GV) and averages them using a weighted mean, usually with weights of 50%, 35% and 15% accordingly.",,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+conga,Conga,"Continuous Overall Net Glycemic Action (CONGA). This measure assesses intra-day glycemic variability, by calculating the standard deviation of differences in glucose measures taken n hours apart.",,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
 cv,CV,"Coefficient of variation of all glucose values.
-",,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-cv_measures_mean,CVmean,Mean of all daily CVs.,,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-cv_measures_sd,CVsd,Standard deviations of all daily CVs.,,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-ea1c,eA1C,"A linear transformation of the mean glucose value, meant to estimate the HbA1C blood test. Calculated by the following formula: (46.7 + mean(Glucose))/28.7.",,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-gmi,GMI,"A linear transformation of the mean glucose value, meant to improve the eA1C measure.",,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-grade,GRADE,Glycaemic Risk Assessment Diabetes Equation (GRADE). This clinical risk score aims to evaluate the degree of risk presented by a glucose profile.,,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-grade_eugly,GRADE eugly,"Percentage of the GRADE score that is attributed to euglycemia (glucose values within the normal range, default is 70-140).",,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-grade_hyper,GRADE hyper,"Percentage of the GRADE score that is attributed to hyperglycemia (glucose values above a target range, default is 140).",,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-grade_hypo,GRADE hypo,"Percentage of the GRADE score that is attributed to hypoglycemia (glucose values above a target range, default is 80).",,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-gvp,GVP,"Glucose Variability Percentage (GVP), which is designed to capture both the amplitude and frequency of glucose oscillations.",,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-hbgi,HBGI,High Blood Glucose Index (HBGI),,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-hyper_index,Hyper index,"This is a weighted average of hyperglycemic values, with larger penalties for more extreme values.",,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-hypo_index,Hypo index,"This is a weighted average of hypoglycemic values, with progressively larger penalties for more extreme values",,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-igc,IGC,"Index of Glycemic Control (IGC), a sum of the hypoglycemia and hyperglycemia indexes. This index was shown to be highly correlated with percentage of time in target range.",,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-iqr,IQR,"Interquartile range (IQR), calculated as the distance between the 25th percentile and the 75th percentile of the glucose values.",,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-j_index,J-index,This index was designed to stress the importance of the two major glycaemia components: the mean level and the variability of glycaemia.,,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-lbgi,LBGI,Low Blood Glucose Index (LBGI),,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-m_value,M value,The M-value is an index aimed to describe the glycemic control of an individual.,,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-mad,MAD,"Median Absolute Deviation (MAD). This is a measure of glycemic variability, which is calculated by taking the median of the differences between glucose values and their median.",,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-mag,MAG,Mean Absolute Glucose (MAG). This is a measure of glycemic variability that’s meant to be less dependent on the mean glucose value and to take into account all variability over time.,,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-mage,MAGE,"Mean Amplitude of Glycemic Excursions (MAGE), an index for glycemic variability. This index is focused on the amplitude of blood glucose changes, and as such it takes into account only changes in the blood glucose (either upwards or downwards) that are large enough to be considered as significant responses.",,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-min_,Min,Minimum of all glucose values.,,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-max_,Max,Maximum of all glucose values.,,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-mean,Mean,Mean of all glucose values.,,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-median,Median,Median of all glucose values.,,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-modd,MODD,"Mean difference between glucose values obtained at the same time of day (MODD). This is a measure of glycemic variability that is calculated by taking the mean of the absolute differences between glucose values measured at the same time, a day apart.",,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-range,Range,Difference between the maximum and minimum glucose values of the individual.,,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-sd,SD,Standard deviation of all glucose values.,,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-sd_roc,SD.Roc,Standard deviation of all the rate of change (ROC) values of an individual. ROC is calculated between every two consecutive glucose measures.,,/cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
-sdb,SDb,"SD between days, within time points. Mean value of the standard deviations calculated for values taken at each time point across all days.",,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-sdbdm,SDbdm,"SD between days, within time points, corrected for changes in daily means. Calculated by subtracting the daily mean from each glucose value, then calculating the SD of the corrected glucose values across days for each time point, and finally taking the mean of those standard deviations.",,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-sddm,SDdm,"Horizontal SD. SD of the mean glucose values, taken for each day separately.",,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-sdhhmm,SDhhmm,SD between time points. Standard deviation of the mean glucose value calculated for each time point across all days.,,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-sdw,SDw,Vertical SD within days. Average value of the SD values for each day separately.,,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
-sdwsh,SDwsh,"SD within series. Taking hour-long intervals that start at each point of the glucose measures, the SD of each hour-long window is computed, and then the mean of all those SDs is taken.",,/cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+",,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+cv_measures_mean,CVmean,Mean of all daily CVs.,,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+cv_measures_sd,CVsd,Standard deviations of all daily CVs.,,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+ea1c,eA1C,"A linear transformation of the mean glucose value, meant to estimate the HbA1C blood test. Calculated by the following formula: (46.7 + mean(Glucose))/28.7.",,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+gmi,GMI,"A linear transformation of the mean glucose value, meant to improve the eA1C measure.",,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+grade,GRADE,Glycaemic Risk Assessment Diabetes Equation (GRADE). This clinical risk score aims to evaluate the degree of risk presented by a glucose profile.,,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+grade_eugly,GRADE eugly,"Percentage of the GRADE score that is attributed to euglycemia (glucose values within the normal range, default is 70-140).",,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+grade_hyper,GRADE hyper,"Percentage of the GRADE score that is attributed to hyperglycemia (glucose values above a target range, default is 140).",,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+grade_hypo,GRADE hypo,"Percentage of the GRADE score that is attributed to hypoglycemia (glucose values above a target range, default is 80).",,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+gvp,GVP,"Glucose Variability Percentage (GVP), which is designed to capture both the amplitude and frequency of glucose oscillations.",,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+hbgi,HBGI,High Blood Glucose Index (HBGI),,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+hyper_index,Hyper index,"This is a weighted average of hyperglycemic values, with larger penalties for more extreme values.",,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+hypo_index,Hypo index,"This is a weighted average of hypoglycemic values, with progressively larger penalties for more extreme values",,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+igc,IGC,"Index of Glycemic Control (IGC), a sum of the hypoglycemia and hyperglycemia indexes. This index was shown to be highly correlated with percentage of time in target range.",,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+iqr,IQR,"Interquartile range (IQR), calculated as the distance between the 25th percentile and the 75th percentile of the glucose values.",,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+j_index,J-index,This index was designed to stress the importance of the two major glycaemia components: the mean level and the variability of glycaemia.,,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+lbgi,LBGI,Low Blood Glucose Index (LBGI),,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+m_value,M value,The M-value is an index aimed to describe the glycemic control of an individual.,,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+mad,MAD,"Median Absolute Deviation (MAD). This is a measure of glycemic variability, which is calculated by taking the median of the differences between glucose values and their median.",,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+mag,MAG,Mean Absolute Glucose (MAG). This is a measure of glycemic variability that’s meant to be less dependent on the mean glucose value and to take into account all variability over time.,,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+mage,MAGE,"Mean Amplitude of Glycemic Excursions (MAGE), an index for glycemic variability. This index is focused on the amplitude of blood glucose changes, and as such it takes into account only changes in the blood glucose (either upwards or downwards) that are large enough to be considered as significant responses.",,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+min_,Min,Minimum of all glucose values.,,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+max_,Max,Maximum of all glucose values.,,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+mean,Mean,Mean of all glucose values.,,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+median,Median,Median of all glucose values.,,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+modd,MODD,"Mean difference between glucose values obtained at the same time of day (MODD). This is a measure of glycemic variability that is calculated by taking the mean of the absolute differences between glucose values measured at the same time, a day apart.",,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+range,Range,Difference between the maximum and minimum glucose values of the individual.,,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+sd,SD,Standard deviation of all glucose values.,,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+sd_roc,SD.Roc,Standard deviation of all the rate of change (ROC) values of an individual. ROC is calculated between every two consecutive glucose measures.,,cgm/cgm.parquet,Continuous,,,Data,Single,10K,tabular,2018-12-27,float
+sdb,SDb,"SD between days, within time points. Mean value of the standard deviations calculated for values taken at each time point across all days.",,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+sdbdm,SDbdm,"SD between days, within time points, corrected for changes in daily means. Calculated by subtracting the daily mean from each glucose value, then calculating the SD of the corrected glucose values across days for each time point, and finally taking the mean of those standard deviations.",,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+sddm,SDdm,"Horizontal SD. SD of the mean glucose values, taken for each day separately.",,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+sdhhmm,SDhhmm,SD between time points. Standard deviation of the mean glucose value calculated for each time point across all days.,,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+sdw,SDw,Vertical SD within days. Average value of the SD values for each day separately.,,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
+sdwsh,SDwsh,"SD within series. Taking hour-long intervals that start at each point of the glucose measures, the SD of each hour-long window is computed, and then the mean of all those SDs is taken.",,cgm/cgm.parquet,Continuous,mg/dl,,Data,Single,10K,tabular,2018-12-27,float
