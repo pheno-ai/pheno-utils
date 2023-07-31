@@ -229,7 +229,9 @@ class PhenoLoader:
         flexi_fields = list()
 
         data = pd.DataFrame()
-        for df in self.dfs.values():
+        for table_name, df in self.dfs.items():
+            if 'mapping' in table_name:
+                continue
             if flexible:
                 # use fuzzy matching including regex to find fields
                 fields_in_col = np.unique([col for f in fields for col in df.columns if re.search(f, col)])
@@ -238,7 +240,6 @@ class PhenoLoader:
                 fields_in_col = df.columns.intersection(fields).difference(data.columns)
             if len(fields_in_col):
                 data = self.__concat__(data, df[fields_in_col])
-
             fields_in_index = np.setdiff1d(np.intersect1d(df.index.names, fields), data.columns)
             for field in fields_in_index:
                 data = self.__concat__(
