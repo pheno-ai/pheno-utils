@@ -240,6 +240,7 @@ class PhenoLoader:
                 fields_in_col = df.columns.intersection(fields).difference(data.columns)
             if len(fields_in_col):
                 data = self.__concat__(data, df[fields_in_col])
+
             fields_in_index = np.setdiff1d(np.intersect1d(df.index.names, fields), data.columns)
             for field in fields_in_index:
                 data = self.__concat__(
