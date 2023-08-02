@@ -21,7 +21,7 @@ ALL_COLOR = "C5"
 GLUC_COLOR = "C0"
 FOOD_COLOR = "C1"
 
-DATASETS_PATH = '/home/ec2-user/studies/hpp/'
+DATASETS_PATH = '/home/ec2-user/studies/hpp_datasets/'
 COHORT = None
 EVENTS_DATASET = 'events'
 ERROR_ACTION = 'raise'
@@ -60,6 +60,18 @@ for cf in CONFIG_FILES:
         continue
     
     config_found=True
+    break
+
+
+if not config_found: 
+    if not copy_tre_config():
+        raise ValueError(f'Missing Config file, please read the README file and run config_setup/create_default_config.py')
+        
+    
+for cf in CONFIG_FILES:
+    cf = os.path.expanduser(cf)
+    if not os.path.isfile(cf):
+        continue
     
     f = open(cf)
     config = json.load(f)
@@ -77,12 +89,6 @@ for cf in CONFIG_FILES:
         ERROR_ACTION = config['ERROR_ACTION']
     break
 
-if not config_found: 
-    if not copy_tre_config():
-        raise ValueError(f'Missing Config file, please read the README file and run config_setup/create_default_config.py')
-        
-    
-    
 
 # %% ../nbs/00_config.ipynb 7
 def generate_synthetic_data(n: int = 1000) -> pd.DataFrame:
