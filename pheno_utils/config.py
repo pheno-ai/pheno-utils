@@ -36,7 +36,7 @@ config_found = False
 def copy_tre_config():
     tre_mode = False
     script_path = os.path.dirname(os.path.abspath(__file__))
-    absolute_config_path = os.path.join(script_path, '../config_setup/config_tre.json')
+    absolute_config_path = os.path.join(script_path, 'config_setup/config_tre.json')
     
     with open(absolute_config_path, 'r') as openfile:
         json_object = json.load(openfile)
